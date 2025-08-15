@@ -1,4 +1,4 @@
-# internship-tracker
+# Internship Application & Tracking System
 
 A simple full-stack web application for Internship application and tracking
 
@@ -16,12 +16,14 @@ A simple full-stack web application for Internship application and tracking
 
 ### 1. Setup the environment
 
-1. Install apache server (httpd)
-2. Install php
-3. Install mysql
-4. Install phpmyadmin
-
 - **Recomended** - Install XAMPP (All-in-one utility with all the required dependencies)
+
+- Using command-line interface
+
+    1. Install httpd (apache server)
+    2. Install php
+    3. Install mysql
+    4. Install phpmyadmin
 
 ### 2. Initialize Database
 
