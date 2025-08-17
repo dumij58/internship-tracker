@@ -9,16 +9,8 @@ $page_title = 'Home';
 require_once '../includes/header.php';
 ?>
 
-<p style='color:red;'> The content for this page starts here </p>
-<br />
-<br />
-
 <h1>Welcome, <?php echo escape($_SESSION['username']); ?>!</h1>
 <p>This is your dashboard.</p>
-
-<br />
-<br />
-<p style='color:red;'> The content for this page ends here </p>
 
 <?php
 // --- Include the footer ---
