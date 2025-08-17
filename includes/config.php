@@ -9,6 +9,12 @@
 // Start session if not already started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
+
+    // Only for development purposes
+        //$_SESSION['username'] = 'student';
+        //$_SESSION['role'] = 'student';
+        $_SESSION['username'] = 'company';
+        $_SESSION['role'] = 'company';
 }
 
 // Database Configuration
@@ -36,8 +42,7 @@ ini_set('display_errors', 1);
 // Determine the root path for correct asset and link paths
 // This allows the header to be used from any directory level
 define('ROOT_PATH', isset($path_prefix) ? $path_prefix : '/internship-tracker');
-define('PAGE_PATH', ROOT_PATH . '/pages');
-define('ASSET_PATH', ROOT_PATH . '/assets');
+define('PAGES_PATH', ROOT_PATH . '/pages');
 
 /**
  * Database Connection Function
@@ -99,7 +104,7 @@ function getCurrentUserType() {
 function requireLogin() {
     if (!isLoggedIn()) {
         $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
-        header('Location: ' . PAGE_PATH . '/login.php?msg=Please login to continue');
+        header('Location: ' . PAGES_PATH . '/login.php?msg=Please login to continue');
         exit();
     }
 }
@@ -108,7 +113,7 @@ function requireLogin() {
 function requireAdmin() {
     requireLogin();
     if (!isAdmin()) {
-        header('Location: ' . PAGE_PATH . '/index.php?msg=Access denied. Admin privileges required.');
+        header('Location: ' . PAGES_PATH . '/index.php?msg=Access denied. Admin privileges required.');
         exit();
     }
 }
