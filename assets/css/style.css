@@ -1,0 +1,63 @@
+.nav-container {
+    background-color: #333;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: fit-content;
+    padding: 2dvh;
+    position: fixed;
+}
+
+.nav-brand {
+    color: white;
+    font-size: 1.5rem;
+    text-decoration: none;
+    float: left;
+    padding-right: 30px;
+    margin-top: -5px;
+}
+
+
+.nav-links {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links a {
+    color: white;
+    font-size: 1.1rem;
+    transition: /*font-size 0.2s ease,*/ color 0.2s ease;
+    text-decoration: none;
+    text-align: center;
+    min-width: fit-content;
+    padding-left: 15px;
+}
+
+.nav-links a:hover {
+    /* font-size: 1.02rem; */
+    color: #999999;
+}
+
+.nav-user {
+    right: 20px;
+    position: fixed;
+}
+
+.nav-uname {
+    color: white;
+    font-size: 1.1rem;
+}
+
+.content {
+    margin-top: 8dvh;
+    padding: 20px;
+    background-color: aqua;
+}
+
+footer {
+    width: 100%;
+    bottom: 0;
+    background-color: whitesmoke;
+    position: fixed;
+    text-align: center;
+}
