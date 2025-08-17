@@ -11,6 +11,8 @@ A simple full-stack web application for Internship application and tracking
 - Homepage (user logged in)
 - Help Page
 - Functionalities Page
+- Analytical reports
+- Feedback forms
 
 ## Setup
 
