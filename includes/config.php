@@ -13,8 +13,10 @@ if (session_status() === PHP_SESSION_NONE) {
     // Only for development purposes
         //$_SESSION['username'] = 'student';
         //$_SESSION['role'] = 'student';
-        $_SESSION['username'] = 'company';
-        $_SESSION['role'] = 'company';
+        //$_SESSION['username'] = 'company';
+        //$_SESSION['role'] = 'company';
+        $_SESSION['username'] = 'admin';
+        $_SESSION['role'] = 'admin';
 }
 
 // Database Configuration
@@ -97,11 +99,12 @@ function getCurrentUserId() {
 
 // Get current user type
 function getCurrentUserType() {
-    return isset($_SESSION['user_type_id']) ? $_SESSION['user_type_id'] : null;
+    return isset($_SESSION['user_type_id']) ? getUserRole($_SESSION['user_type_id']) : null;
 }
 
 // Redirect to login if not logged in
 function requireLogin() {
+    echo isset($_SESSION['user_id']) ? '' : 'You must be logged in to access this page.';
     if (!isLoggedIn()) {
         $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
         header('Location: ' . PAGES_PATH . '/login.php?msg=Please login to continue');
@@ -111,7 +114,7 @@ function requireLogin() {
 
 // Redirects to home if user is not an admin
 function requireAdmin() {
-    requireLogin();
+    //requireLogin();
     if (!isAdmin()) {
         header('Location: ' . PAGES_PATH . '/index.php?msg=Access denied. Admin privileges required.');
         exit();
@@ -128,6 +131,16 @@ function isAdmin() {
     return getCurrentUserType() === 'administrator';
 }
 
+// Get user role based on role ID
+function getUserRole($role) {
+    switch($role) {
+        case 1: return 'admin';
+        case 2: return 'student';
+        case 3: return 'company';
+        default: return 'unknown';
+    }
+}
+
 // Hash password securely
 function hashPassword($password) {
     return password_hash($password, HASH_ALGO);
@@ -141,6 +154,20 @@ function verifyPassword($password, $hash) {
 // Sanitizes output to prevent XSS attacks.
 function escape($data) {
     return htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
+}
+
+/**
+ * Log user activity
+ * Records important actions in the activity_logs table
+ */
+function logActivity($action, $details = null) {
+    $db = getDB();
+    $user_id = $_SESSION['user_id'] ?? null;
+    $ip_address = $_SERVER['REMOTE_ADDR'] ?? null;
+    
+    $sql = "INSERT INTO system_logs (user_id, action, details, ip_address) VALUES (:uid, :action, :details, :ip)";
+    $stmt = $db->prepare($sql);
+    $stmt->execute(['uid' => $user_id, 'action' => $action, 'details' => $details, 'ip' => $ip_address]);
 }
 
 ?>

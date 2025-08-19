@@ -2,17 +2,22 @@
 
 body {
     font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f4f8;
 }
 
 .nav-container {
-    background-color: rgb(239, 253, 255);
+    background-color: #ffffff;
     top: 0;
     left: 0;
     width: 100%;
     height: fit-content;
     padding: 2dvh;
     position: fixed;
-    border-bottom: #60c5ff 3px solid;
+    /* border-bottom: #60c5ff 3px solid; */
+    border-bottom: rgb(0, 92, 137) 3px solid;
+    box-shadow: 0px 0px 20px 0px rgba(36, 86, 107, 0.29);
 }
 
 .nav-brand {
@@ -61,10 +66,50 @@ body {
     padding: 20px;
 }
 
+.login-container {
+    width: 100%;
+    display: block;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin-panel {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.admin-analytics {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.admin-tasks {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 footer {
     width: 100%;
     bottom: 0;
-    background-color: rgb(239, 253, 255);
-    position: fixed;
+    position: absolute;
+    background-color: rgb(228, 252, 255);
     text-align: center;
 }
