@@ -8,7 +8,7 @@ $page_title = 'Admin Login';
 $db = getDB();
 
 // --- Include the header ---
-require_once '../../includes/header_admindash.php';
+require_once '../../includes/header_admin.php';
 ?>
 
 <div class="admin-panel">
