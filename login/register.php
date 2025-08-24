@@ -44,7 +44,19 @@ if(isset($_POST['signIn'])){
         $row = $stmt->fetch();
         $_SESSION['email'] = $row['email'];
         $_SESSION['name'] = $row['name'];
-        header("Location: homepage.php");
+        
+        // Check if user has completed their details
+        $checkDetails = "SELECT * FROM user_details WHERE user_id = ?";
+        $stmt = $conn->prepare($checkDetails);
+        $stmt->execute([$row['id']]);
+        
+        if($stmt->rowCount() > 0) {
+            // User has details, go to homepage
+            header("Location: homepage.php");
+        } else {
+            // User needs to complete details, show message and redirect
+            echo "<script>alert('Welcome! Please complete your user details to continue.'); window.location.href='user_details.php';</script>";
+        }
         exit();
     }
     else {

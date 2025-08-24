@@ -1,116 +1,122 @@
-# Login System
+# Internship Tracker - User Details System
 
-A simple PHP-based login and registration system with MySQL database.
+A PHP-based web application for managing user registration, login, and detailed user profiles for internship tracking.
 
 ## Features
 
-- User registration with name, email, and password
-- User login with email and password
-- Session management
-- Responsive design
-- Success/error messages
-- Welcome page with user's name
+- **User Registration & Login**: Secure user authentication system
+- **User Details Form**: Comprehensive profile creation with the following sections:
+  - **Basic Information**: Full name, phone number
+  - **Academic Details**: University/college, degree program, year of study, GPA
+  - **Skills & Interests**: Key skills and areas of interest
+  - **Resume/Portfolio**: PDF resume upload, LinkedIn, GitHub, and portfolio links
+- **Profile Management**: View and edit user profiles
+- **File Upload**: Secure PDF resume upload functionality
+- **Responsive Design**: Modern, mobile-friendly interface
 
-## Setup Instructions
+## Database Setup
 
-### 1. Database Setup
+1. Create a MySQL database named `login`
+2. Import the `database_setup.sql` file to create the required tables:
+   - `users` table for basic user information
+   - `user_details` table for comprehensive user profiles
 
-1. Start XAMPP and ensure Apache and MySQL services are running
-2. Open phpMyAdmin (http://localhost/phpmyadmin)
-3. Create a new database named `login`
-4. Import the `database_setup.sql` file or run the SQL commands manually:
+## Installation
 
-```sql
-CREATE DATABASE IF NOT EXISTS login;
-USE login;
+1. **Database Setup**:
+   ```sql
+   -- Run the database_setup.sql file in your MySQL server
+   ```
 
-CREATE TABLE IF NOT EXISTS users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+2. **File Upload Directory**:
+   - The system will automatically create an `uploads/` directory for resume files
+   - Ensure the web server has write permissions to this directory
+
+3. **Configuration**:
+   - Update database connection details in `connect.php` if needed
+   - The default configuration uses:
+     - Host: localhost
+     - User: root
+     - Password: (empty)
+     - Database: login
+
+## File Structure
+
+```
+login/
+├── index.php              # Main login/registration page
+├── register.php           # Registration and login processing
+├── homepage.php           # Dashboard after login
+├── user_details.php       # User details form
+├── view_profile.php       # View user profile
+├── edit_profile.php       # Edit user profile
+├── logout.php             # Logout functionality
+├── connect.php            # Database connection
+├── style.css              # Main stylesheet
+├── background.jpg         # Background image
+├── .htaccess              # Server configuration
+├── database_setup.sql     # Database schema
+└── uploads/               # Resume upload directory (auto-created)
 ```
 
-### 2. File Setup
+## User Flow
 
-1. Place all PHP files in your XAMPP `htdocs` folder
-2. Ensure the `connect.php` file has correct database credentials:
-   - Host: localhost
-   - Username: root
-   - Password: (leave empty for default XAMPP setup)
-   - Database: login
+1. **Registration**: Users register with name, email, and password
+2. **Login**: Users log in with email and password
+3. **Profile Completion**: After first login, users are prompted to complete their profile
+4. **Profile Management**: Users can view and edit their profiles
+5. **Dashboard**: Users see their profile status and can access various features
 
-### 3. Access the Application
+## Form Fields
 
-1. Open your web browser
-2. Navigate to `http://localhost/your-folder-name/index.php`
+### Basic Information
+- Full Name (required)
+- Phone Number (required)
 
-## How It Works
+### Academic Details
+- University/College Name (required)
+- Degree Program (required)
+- Year of Study (required)
+- GPA/Academic Performance (optional)
 
-### Registration (Sign Up)
-1. Click "Sign up" button
-2. Fill in your name, email, and password
-3. Click "Sign up" to register
-4. You'll see a success message: "Thank you [Name]! Registration successful."
+### Skills & Interests
+- Key Skills (required)
+- Areas of Interest (required)
 
-### Login (Sign In)
-1. Click "Sign in" button (name field will be hidden)
-2. Enter your email and password
-3. Click "Sign in" to login
-4. If credentials are correct, you'll be redirected to the homepage
-5. If incorrect, you'll see: "Incorrect email or password"
+### Resume/Portfolio
+- Resume Upload - PDF only (required)
+- LinkedIn URL (optional)
+- GitHub URL (optional)
+- Portfolio URL (optional)
 
-### Homepage
-- Displays "Hi [Name]!" with a logout button
-- Only accessible to logged-in users
-- Automatically redirects to login page if not authenticated
+## Security Features
 
-## Troubleshooting
-
-### Common Issues
-
-1. **Database Connection Error**
-   - Ensure XAMPP MySQL service is running
-   - Check database credentials in `connect.php`
-   - Verify database and table exist
-
-2. **Registration Not Working**
-   - Check if the `users` table exists
-   - Ensure all form fields are filled
-   - Check for duplicate email addresses
-
-3. **Login Not Working**
-   - Verify email and password are correct
-   - Check if user exists in database
-   - Ensure password was properly hashed during registration
-
-4. **Session Issues**
-   - Make sure `session_start()` is called
-   - Check if cookies are enabled in browser
-
-### File Structure
-```
-├── index.php          # Main login/registration page
-├── register.php       # Handles registration and login logic
-├── homepage.php       # Welcome page after successful login
-├── logout.php         # Logout functionality
-├── connect.php        # Database connection
-├── style.css          # CSS styling
-├── database_setup.sql # Database setup script
-└── README.md          # This file
-```
-
-## Security Notes
-
-- Passwords are hashed using MD5 (consider using more secure hashing for production)
-- Basic input validation is implemented
-- Session-based authentication is used
-- SQL injection protection should be enhanced for production use
+- **Prepared Statements**: All database queries use prepared statements to prevent SQL injection
+- **File Upload Security**: Only PDF files are allowed for resume uploads
+- **Session Management**: Secure session handling for user authentication
+- **Input Validation**: Server-side validation for all form inputs
+- **XSS Protection**: HTML escaping for all user-generated content
 
 ## Browser Compatibility
 
-- Works on all modern browsers
+- Modern browsers (Chrome, Firefox, Safari, Edge)
 - Responsive design for mobile devices
-- Requires JavaScript enabled for form switching
+- JavaScript enabled for enhanced functionality
+
+## Troubleshooting
+
+1. **File Upload Issues**: Ensure the `uploads/` directory has proper write permissions
+2. **Database Connection**: Verify database credentials in `connect.php`
+3. **Session Issues**: Check PHP session configuration
+4. **File Size Limits**: Adjust upload limits in `.htaccess` if needed
+
+## Customization
+
+- Modify `style.css` for custom styling
+- Update form fields in `user_details.php` and `edit_profile.php`
+- Add new database fields in `database_setup.sql`
+- Customize validation rules in PHP files
+
+## License
+
+This project is open source and available under the MIT License.
