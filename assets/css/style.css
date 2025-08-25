@@ -77,12 +77,10 @@ body {
 .admin-panel {
     width: 90%;
     max-width: 1200px;
-    margin: 0 auto;
     height: fit-content;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    margin: auto;
 }
 
 .admin-analytics {
@@ -104,12 +102,19 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
+}
+
+.gbt-dash {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 footer {
     width: 100%;
     bottom: 0;
-    position: absolute;
+    position: relative;
     background-color: rgb(228, 252, 255);
     text-align: center;
 }

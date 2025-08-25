@@ -5,6 +5,8 @@ require_once '../../includes/config.php';
 
 // --- Page-specific variables ---
 $page_title = 'Admin Login';
+global $pages_path;
+$tasks_path = $pages_path . 'tasks';
 $db = getDB();
 
 // --- Include the header ---
@@ -21,11 +23,11 @@ require_once '../../includes/header_admin.php';
                 <th>Companies</th>
                 <th>Internships</th>
             </tr>
-            <tr align="center" rowspan="2">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+            <tr align="center">
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+                <td>4</td>
             </tr>
         </table>
     </div>
@@ -33,25 +35,53 @@ require_once '../../includes/header_admin.php';
         <h2>Administrative Tasks</h2>
         <table border="0" colspan="4" cellspacing="10" width="100%">
             <tr>
-                <th>Users</th>
+                <th>Students</th>
                 <th>Applications</th>
                 <th>Companies</th>
                 <th>Internships</th>
             </tr>
             <tr align="center">
-                <td><a href="users_list.php">Manage Users</a></td>
-                <td><a href="applications.php">Manage Applications</a></td>
-                <td><a href="companies.php">Manage Companies</a></td>
-                <td><a href="internships.php">Manage Internships</a></td>
+                <td><a href=<?php echo $tasks_path . '/students.php';?>>Manage Students</a></td>
+                <td><a href=<?php echo $tasks_path . '/applications.php';?>>Manage Applications</a></td>
+                <td><a href=<?php echo $tasks_path . '/companies.php';?>>Manage Companies</a></td>
+                <td><a href=<?php echo $tasks_path . '/internships.php';?>>Manage Internships</a></td>
             </tr>
             <tr align="center">
-                <td><a href="user_profiles.php">Manage User Profiles</a></td>
+                <td><a href=<?php echo $tasks_path . '/student_profiles.php';?>>Manage Student Profiles</a></td>
                 <td></td>
-                <td><a href="company_profiles.php">Manage Company Profiles</a></td>
-                <td><a href="internship_categories.php">Internship Categories</a></td>
+                <td><a href=<?php echo $tasks_path . '/company_profiles.php';?>>Manage Company Profiles</a></td>
+                <td><a href=<?php echo $tasks_path . '/internship_categories.php';?>>Internship Categories</a></td>
             </tr>
         </table>
     </div>
+    <!--
+    <div class="admin-logs">
+        <h2>System Logs</h2>
+        <table border="0" colspan="4" cellspacing="10" width="100%">
+            <tr>
+                <th>User ID</th>
+                <th>Applications</th>
+                <th>Companies</th>
+                <th>Internships</th>
+            </tr>
+            /*
+            <?php
+            $stmt = $db->query("SELECT * FROM system_logs ORDER BY created_at DESC LIMIT 5");
+            while ($log = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                echo "<tr align='center'>
+                        <td>{$log['user_id']}</td>
+                        <td>{$log['action']}</td>
+                        <td>{$log['details']}</td>
+                    </tr>";
+            }
+            ?>
+            */
+            <tr colspan="4">
+                <td>View all logs</td>
+            </tr>
+        </table>
+    </div>
+        -->
 </div>
 
 <?php

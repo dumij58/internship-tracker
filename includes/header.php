@@ -8,6 +8,7 @@ $current_page_title = isset($page_title) ? $page_title : 'Internship Tracker';
 $root_path = isset($path_prefix) ? $path_prefix : '/internship-tracker';
 $pages_path = $root_path . '/pages';
 $assets_path = $root_path . '/assets';
+$includes_path = $root_path . '/includes';
 ?>
 
 <!DOCTYPE html>
