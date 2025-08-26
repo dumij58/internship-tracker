@@ -16,12 +16,7 @@ CREATE TABLE users (
     username VARCHAR(50) NOT NULL UNIQUE,
     email VARCHAR(100) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
-    first_name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
-    phone VARCHAR(20),
     user_type_id INT NOT NULL,
-    is_active BOOLEAN DEFAULT TRUE,
-    email_verified BOOLEAN DEFAULT FALSE,
     last_login TIMESTAMP NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -30,9 +25,12 @@ CREATE TABLE users (
 
 -- Student Profiles (Extended info for students)
 CREATE TABLE student_profiles (
-    profile_id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL UNIQUE,
     student_id VARCHAR(20),
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    phone VARCHAR(20),
     university VARCHAR(100),
     major VARCHAR(100),
     year_of_study INT,
@@ -47,12 +45,10 @@ CREATE TABLE student_profiles (
 
 -- Company Profiles (For company representatives)
 CREATE TABLE company_profiles (
-    profile_id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL UNIQUE,
     company_name VARCHAR(100) NOT NULL,
     company_website VARCHAR(255),
-    industry VARCHAR(100),
-    company_size ENUM('startup', 'small', 'medium', 'large', 'enterprise'),
     company_description TEXT,
     address TEXT,
     verified BOOLEAN DEFAULT FALSE,
@@ -61,16 +57,15 @@ CREATE TABLE company_profiles (
 
 -- Internship Categories
 CREATE TABLE internship_categories (
-    category_id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     category_name VARCHAR(100) NOT NULL UNIQUE,
     category_description TEXT,
-    is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Main Internships Table
 CREATE TABLE internships (
-    internship_id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(200) NOT NULL,
     company_id INT NOT NULL, -- Links to company_profiles
     category_id INT NOT NULL,
@@ -97,7 +92,7 @@ CREATE TABLE internships (
 
 -- Internship Skills Required
 CREATE TABLE internship_skills (
-    skill_id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     internship_id INT NOT NULL,
     skill_name VARCHAR(100) NOT NULL,
     skill_level ENUM('basic', 'intermediate', 'advanced') DEFAULT 'basic',
@@ -107,18 +102,15 @@ CREATE TABLE internship_skills (
 
 -- Applications Table
 CREATE TABLE applications (
-    application_id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     internship_id INT NOT NULL,
     student_id INT NOT NULL, -- Links to users table
-    cover_letter TEXT,
     resume_path VARCHAR(255),
     additional_documents TEXT, -- JSON array of file paths
     status ENUM('submitted', 'under_review', 'shortlisted', 'rejected', 'accepted', 'withdrawn') DEFAULT 'submitted',
     application_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     reviewed_date TIMESTAMP NULL,
     reviewed_by INT NULL,
-    feedback TEXT,
-    rating INT CHECK (rating >= 1 AND rating <= 5),
     interview_scheduled TIMESTAMP NULL,
     interview_notes TEXT,
     FOREIGN KEY (internship_id) REFERENCES internships(internship_id),
@@ -127,55 +119,15 @@ CREATE TABLE applications (
     UNIQUE KEY unique_application (internship_id, student_id)
 );
 
--- Application Status History (Track status changes)
-CREATE TABLE application_status_history (
-    history_id INT AUTO_INCREMENT PRIMARY KEY,
-    application_id INT NOT NULL,
-    old_status VARCHAR(50),
-    new_status VARCHAR(50) NOT NULL,
-    changed_by INT NOT NULL,
-    change_reason TEXT,
-    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (application_id) REFERENCES applications(application_id) ON DELETE CASCADE,
-    FOREIGN KEY (changed_by) REFERENCES users(user_id)
-);
-
--- User Sessions (for session management)
-CREATE TABLE user_sessions (
-    session_id VARCHAR(128) PRIMARY KEY,
-    user_id INT NOT NULL,
-    ip_address VARCHAR(45),
-    user_agent TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    expires_at TIMESTAMP NOT NULL,
-    is_active BOOLEAN DEFAULT TRUE,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
-
 -- System Logs (for audit trail)
 CREATE TABLE system_logs (
     log_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     action VARCHAR(100) NOT NULL,
-    table_affected VARCHAR(100),
-    record_id INT,
-    old_values JSON,
-    new_values JSON,
-    ip_address VARCHAR(45),
+    details VARCHAR(255),
     user_agent TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
-);
-
--- System Settings
-CREATE TABLE system_settings (
-    setting_id INT AUTO_INCREMENT PRIMARY KEY,
-    setting_key VARCHAR(100) NOT NULL UNIQUE,
-    setting_value TEXT,
-    setting_description TEXT,
-    updated_by INT,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (updated_by) REFERENCES users(user_id)
 );
 
 -- Notifications Table
@@ -186,12 +138,12 @@ CREATE TABLE notifications (
     message TEXT NOT NULL,
     type ENUM('info', 'success', 'warning', 'error') DEFAULT 'info',
     is_read BOOLEAN DEFAULT FALSE,
-    related_table VARCHAR(100),
-    related_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     read_at TIMESTAMP NULL,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
+
+
 
 -- ====================================
 --  INSERT DEFAULT DATA
@@ -202,7 +154,6 @@ INSERT INTO user_types (type_name, type_description) VALUES
 ('administrator', 'System administrator with full access'),
 ('student', 'Student user who can apply for internships'),
 ('company', 'Company representative who can post internships'),
-('moderator', 'Moderator with limited admin privileges');
 
 -- Insert Default Categories
 INSERT INTO internship_categories (category_name, category_description) VALUES
@@ -219,16 +170,9 @@ INSERT INTO users (username, email, password_hash, first_name, last_name, user_t
 
 -- Create Default Student User (password: student123)
 INSERT INTO users (username, email, password_hash, first_name, last_name, user_type_id) VALUES
-('student', 'student@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Default', 'Student', 2);
+('student', 'student@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Student', '1', 2);
+('student2', 'student2@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Student', '2', 2);
 
 -- Create Student Profile for Default Student
-INSERT INTO student_profiles (user_id, student_id, university, major, year_of_study, gpa) VALUES
-(2, 'STU001', 'Default University', 'Computer Science', 3, 3.50);
-
--- Insert Default System Settings
-INSERT INTO system_settings (setting_key, setting_value, setting_description) VALUES
-('site_name', 'Internship Application & Tracking System', 'Name of the application'),
-('max_applications_per_student', '10', 'Maximum applications a student can submit'),
-('application_deadline_buffer', '7', 'Days before deadline when applications close'),
-('email_notifications', '1', 'Enable email notifications (1=yes, 0=no)'),
-('file_upload_max_size', '5242880', 'Maximum file upload size in bytes (5MB)');
+INSERT INTO student_profiles (user_id, student_id, first_name, last_name, phone, bio, university, major, year_of_study, gpa) VALUES
+(2, 'STU001', 'Student1', 'Name', '94712808865', 'Default user for InternSphere web application', 'Default University', 'Computer Science', 3, 3.50);
