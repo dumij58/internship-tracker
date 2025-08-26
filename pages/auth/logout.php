@@ -3,6 +3,8 @@
 
 require_once '../../includes/config.php';
 
+$user_role = $_SESSION['role'];
+
 // Unset all of the session variables
 $_SESSION = [];
 
@@ -19,6 +21,10 @@ if (ini_get("session.use_cookies")) {
 session_destroy();
 
 // Redirect to the main login page
-header("Location: login.php");
+if ($user_role === 'admin')
+    header("Location: ../admin/login.php");
+else
+    header("Location: login.php");
+
 exit();
 ?>
