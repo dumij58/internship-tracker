@@ -1,9 +1,3 @@
-<?php
-// A reusable footer for the entire application.
-
-require_once 'config.php';
-?>
-
         </div>
     </div>
 

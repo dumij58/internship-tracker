@@ -13,8 +13,10 @@ if (session_status() === PHP_SESSION_NONE) {
     // Only for development purposes
         //$_SESSION['username'] = 'student';
         //$_SESSION['role'] = 'student';
-        $_SESSION['username'] = 'company';
-        $_SESSION['role'] = 'company';
+        //$_SESSION['username'] = 'company';
+        //$_SESSION['role'] = 'company';
+        //$_SESSION['username'] = 'admin';
+        //$_SESSION['role'] = 'admin';
 }
 
 // Database Configuration
@@ -39,10 +41,9 @@ date_default_timezone_set('Asia/Colombo'); // Adjust to your timezone
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Determine the root path for correct asset and link paths
-// This allows the header to be used from any directory level
-define('ROOT_PATH', isset($path_prefix) ? $path_prefix : '/internship-tracker');
-define('PAGES_PATH', ROOT_PATH . '/pages');
+// Define paths
+$root_path = isset($path_prefix) ? $path_prefix : '/internship-tracker';
+$pages_path = $root_path . '/';
 
 /**
  * Database Connection Function
@@ -75,6 +76,22 @@ function getDB() {
     return $db->getDBConnection();
 }
 
+/*
+function getDBTable($db_table) {
+    $db = getDB();
+    try {
+        $sql = 'SELECT * FROM table = :db_table';
+        $stmt = $db->prepare($sql);
+        $stmt->execute(['db_table' => $db_table]);
+        return $stmt->fetch();
+    } catch (PDOException $e) {
+        logActivity('Database Error in '. __FUNCTION__, $e->getMessage());
+        return false;
+    }
+}
+*/
+
+
 // Fetches a user's record from the database by their username.
 function getUser($username) {
     $db = getDB();
@@ -84,8 +101,7 @@ function getUser($username) {
         $stmt->execute(['username' => $username]);
         return $stmt->fetch();
     } catch (PDOException $e) {
-        // In a real application, you would log this error.
-        error_log("Database error in getUser: " . $e->getMessage());
+        logActivity('Database Error in '. __FUNCTION__, $e->getMessage());
         return false;
     }
 }
@@ -97,23 +113,26 @@ function getCurrentUserId() {
 
 // Get current user type
 function getCurrentUserType() {
-    return isset($_SESSION['user_type_id']) ? $_SESSION['user_type_id'] : null;
+    return isset($_SESSION['user_type_id']) ? getUserRole($_SESSION['user_type_id']) : null;
 }
 
 // Redirect to login if not logged in
 function requireLogin() {
+    global $pages_path;
+    echo isset($_SESSION['user_id']) ? '' : 'You must be logged in to access this page.';
     if (!isLoggedIn()) {
         $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
-        header('Location: ' . PAGES_PATH . '/login.php?msg=Please login to continue');
+        header('Location: ' . $pages_path . 'login.php?msg=Please login to continue');
         exit();
     }
 }
 
 // Redirects to home if user is not an admin
 function requireAdmin() {
-    requireLogin();
+    global $pages_path;
+    //requireLogin();
     if (!isAdmin()) {
-        header('Location: ' . PAGES_PATH . '/index.php?msg=Access denied. Admin privileges required.');
+        header('Location: ' . $pages_path . '/index.php?msg=Access denied. Admin privileges required.');
         exit();
     }
 }
@@ -126,6 +145,16 @@ function isLoggedIn() {
 // Check if current user is admin
 function isAdmin() {
     return getCurrentUserType() === 'administrator';
+}
+
+// Get user role based on role ID
+function getUserRole($role) {
+    switch($role) {
+        case 1: return 'admin';
+        case 2: return 'student';
+        case 3: return 'company';
+        default: return 'unknown';
+    }
 }
 
 // Hash password securely
@@ -141,6 +170,20 @@ function verifyPassword($password, $hash) {
 // Sanitizes output to prevent XSS attacks.
 function escape($data) {
     return htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
+}
+
+/**
+ * Log user activity
+ * Records important actions in the activity_logs table
+ */
+function logActivity($action, $details = null) {
+    $db = getDB();
+    $user_id = $_SESSION['user_id'] ?? null;
+    $ip_address = $_SERVER['REMOTE_ADDR'] ?? null;
+    
+    $sql = "INSERT INTO system_logs (user_id, action, details, ip_address) VALUES (:uid, :action, :details, :ip)";
+    $stmt = $db->prepare($sql);
+    $stmt->execute(['uid' => $user_id, 'action' => $action, 'details' => $details, 'ip' => $ip_address]);
 }
 
 ?>
