@@ -1,6 +1,6 @@
 <?php
-session_start();
-include 'connect.php';
+require_once '../../includes/config.php';
+$db = getDB();
 
 if (isset($_POST['signUp'])){
     $name = $_POST['name'];
@@ -10,7 +10,7 @@ if (isset($_POST['signUp'])){
 
     // Check if email already exists using prepared statement
     $checkEmail = "SELECT * FROM users WHERE email = ?";
-    $stmt = $conn->prepare($checkEmail);
+    $stmt = $db->prepare($checkEmail);
     $stmt->execute([$email]);
     
     if($stmt->rowCount() > 0){
@@ -19,7 +19,7 @@ if (isset($_POST['signUp'])){
     else{
         // Insert new user using prepared statement
         $insertQuery = "INSERT INTO users(name, email, password) VALUES (?, ?, ?)";
-        $stmt = $conn->prepare($insertQuery);
+        $stmt = $db->prepare($insertQuery);
         
         try {
             $stmt->execute([$name, $email, $password]);
@@ -37,7 +37,7 @@ if(isset($_POST['signIn'])){
 
     // Login using prepared statement
     $sql = "SELECT * FROM users WHERE email = ? AND password = ?";
-    $stmt = $conn->prepare($sql);
+    $stmt = $db->prepare($sql);
     $stmt->execute([$email, $password]);
     
     if($stmt->rowCount() > 0){
