@@ -43,7 +43,8 @@ if(isset($_POST['signIn'])){
     if($stmt->rowCount() > 0){
         $row = $stmt->fetch();
         $_SESSION['email'] = $row['email'];
-        $_SESSION['name'] = $row['name'];
+        $_SESSION['username'] = $row['name'];
+        $role = getUserRole(getUser($row['user_id'])['user_type_id']);
         header("Location: homepage.php");
         exit();
     }
