@@ -24,23 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $areas_of_interest = $_POST['areas_of_interest'];
         $portfolio_links = $_POST['portfolio_links'] ?: null;
 
-        // Handle resume upload
-        $resume_path = null;
-        if (isset($_FILES['resume']) && $_FILES['resume']['error'] === UPLOAD_ERR_OK) {
-            $upload_dir = '../../uploads/resumes/';
-            if (!is_dir($upload_dir)) {
-                mkdir($upload_dir, 0777, true);
-            }
-            
-            $file_extension = pathinfo($_FILES['resume']['name'], PATHINFO_EXTENSION);
-            $file_name = 'resume_' . $_SESSION['user_id'] . '_' . time() . '.' . $file_extension;
-            $upload_path = $upload_dir . $file_name;
-            
-            if (move_uploaded_file($_FILES['resume']['tmp_name'], $upload_path)) {
-                $resume_path = 'uploads/resumes/' . $file_name;
-            }
-        }
-
         // Update user password if provided
         if (!empty($password)) {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -64,7 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 major = ?, 
                 year_of_study = ?, 
                 gpa = ?, 
-                resume_path = ?, 
                 portfolio_url = ?, 
                 skills = ?, 
                 bio = ?
@@ -79,7 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $degree_program,
                 $year_of_study,
                 $gpa,
-                $resume_path,
                 $portfolio_links,
                 $key_skills,
                 $areas_of_interest,
@@ -88,8 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             // Insert new profile
             $insert_profile = "INSERT INTO student_profiles 
-                (user_id, first_name, last_name, phone, university, major, year_of_study, gpa, resume_path, portfolio_url, skills, bio) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                (user_id, first_name, last_name, phone, university, major, year_of_study, gpa, portfolio_url, skills, bio) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             
             $stmt = $db->prepare($insert_profile);
             $stmt->execute([
@@ -101,7 +82,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $degree_program,
                 $year_of_study,
                 $gpa,
-                $resume_path,
                 $portfolio_links,
                 $key_skills,
                 $areas_of_interest

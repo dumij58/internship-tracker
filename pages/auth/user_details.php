@@ -91,12 +91,7 @@ require_once '../../includes/header.php';
                         <!-- Resume/Portfolio -->
                         <h4 class="mb-3 mt-4">Resume/Portfolio</h4>
                         <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="resume" class="form-label">Resume Upload (PDF) *</label>
-                                <input type="file" class="form-control" id="resume" name="resume" accept=".pdf" required>
-                                <small class="form-text text-muted">Please upload your resume in PDF format</small>
-                            </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-12 mb-3">
                                 <label for="portfolio_links" class="form-label">LinkedIn / GitHub / Portfolio links</label>
                                 <textarea class="form-control" id="portfolio_links" name="portfolio_links" rows="3" placeholder="Enter your professional profile links"></textarea>
                             </div>
