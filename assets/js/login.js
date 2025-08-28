@@ -6,6 +6,15 @@ let iconId = document.getElementById("iconId");
 let loginForm = document.getElementById("loginForm");
 let nameInput = document.querySelector('input[name="name"]');
 
+// Initialize with signin as default
+signinBtn.classList.remove("disable");
+signupBtn.classList.add("disable");
+signinBtn.name = "signIn";
+signinBtn.type = "submit";
+signupBtn.name = "";
+signupBtn.type = "button";
+nameInput.required = false;
+
 signinBtn.onclick = function(){
     namefield.style.maxHeight="0";
     title.innerHTML="Sign In";

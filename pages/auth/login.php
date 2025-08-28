@@ -14,10 +14,10 @@ require_once '../../includes/header.php';
 
 <div class="login-container">
     <div class="form-box">
-        <h1 id="title">Sign Up</h1>
+        <h1 id="title">Sign In</h1>
         <form method="POST" action="register.php" id="loginForm">
             <div class="input-group">
-                <div class="input-field" id="namefield">
+                <div class="input-field" id="namefield" style="max-height: 0; overflow: hidden;">
                     <input type="text" name="name" placeholder="Name" required>
                 </div>
                 <div class="input-field">
@@ -30,8 +30,8 @@ require_once '../../includes/header.php';
                 <p class="lost-pass">Lost password? <a href="#">Click here</a></p>
             </div>
             <div class="btn-field">
-                <button type="submit" id="signupBtn" name="signUp">Sign up</button>
-                <button type="button" class="disable" id="signinBtn">Sign in</button>
+                <button type="button" class="disable" id="signupBtn">Sign up</button>
+                <button type="submit" id="signinBtn" name="signIn">Sign in</button>
             </div>
         </form>
     </div>
