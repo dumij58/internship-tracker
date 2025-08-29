@@ -49,10 +49,10 @@ if(isset($_POST['signIn'])){
             $_SESSION['user_type_id'] = $row['user_type_id'];
             
             // Check if user has completed profile
-            $check_profile = "SELECT id FROM student_profiles WHERE user_id = ?";
+            $check_profile = "SELECT user_id FROM student_profiles WHERE user_id = ?";
             $stmt = $db->prepare($check_profile);
             $stmt->execute([$row['user_id']]);
-            
+
             if($stmt->rowCount() > 0) {
                 // Profile exists, redirect to main page
                 echo "<script>

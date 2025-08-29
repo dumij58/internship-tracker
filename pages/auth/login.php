@@ -6,6 +6,7 @@ require_once '../../includes/config.php';
 // --- Page-specific variables ---
 $page_title = 'Login';
 global $pages_path;
+global $assets_path;
 $db = getDB();
 
 // --- Include the header ---
@@ -34,6 +35,7 @@ require_once '../../includes/header.php';
                 <button type="submit" id="signinBtn" name="signIn">Sign in</button>
             </div>
         </form>
+        <script src="<?php echo $assets_path; ?>/js/login.js"></script>
     </div>
 </div>
 
