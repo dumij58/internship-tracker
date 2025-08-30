@@ -1,13 +1,6 @@
 <?php
 require_once '../../includes/config.php';
-session_start();
-
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
-}
-
-$db = getDB();
+requireLogin(); 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {

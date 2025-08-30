@@ -7,7 +7,6 @@ require_once '../../includes/config.php';
 $page_title = 'Login';
 global $pages_path;
 global $assets_path;
-$db = getDB();
 
 // --- Include the header ---
 require_once '../../includes/header.php';

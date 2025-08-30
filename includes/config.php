@@ -1,10 +1,6 @@
 <?php
-/**
- * This file contains all the essential settings and functions used throughout the application
- * It should be included at the beginning of every PHP file that needs database access or session management
- */
-
-//ob_start();
+// Output buffering for header manipulation
+ob_start();
 
 // Start session if not already started
 if (session_status() === PHP_SESSION_NONE) {
@@ -43,7 +39,7 @@ ini_set('display_errors', 1);
 
 // Define paths
 $root_path = isset($path_prefix) ? $path_prefix : '/internship-tracker';
-$pages_path = $root_path . '/';
+$pages_path = $root_path . '/pages';
 
 /**
  * Database Connection Function
@@ -94,7 +90,7 @@ function getDBTable($db_table) {
 
 // Fetches a user's record from the database by their username.
 function getUser($username) {
-    $db = getDB();
+    global $db;
     try {
         $sql = "SELECT * FROM users WHERE username = :username";
         $stmt = $db->prepare($sql);
@@ -119,10 +115,9 @@ function getCurrentUserType() {
 // Redirect to login if not logged in
 function requireLogin() {
     global $pages_path;
-    echo isset($_SESSION['user_id']) ? '' : 'You must be logged in to access this page.';
     if (!isLoggedIn()) {
         $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
-        header('Location: ' . $pages_path . 'login.php?msg=Please login to continue');
+        header('Location: ' . $pages_path . '/auth/login.php?msg=Please login to continue');
         exit();
     }
 }
@@ -130,9 +125,9 @@ function requireLogin() {
 // Redirects to home if user is not an admin
 function requireAdmin() {
     global $pages_path;
-    //requireLogin();
+    requireLogin();
     if (!isAdmin()) {
-        header('Location: ' . $pages_path . '/index.php?msg=Access denied. Admin privileges required.');
+        header('Location: ' . $pages_path . '/error.php?error_code=403&error_message=Access denied. Admin privileges required.');
         exit();
     }
 }
@@ -144,7 +139,7 @@ function isLoggedIn() {
 
 // Check if current user is admin
 function isAdmin() {
-    return getCurrentUserType() === 'administrator';
+    return getCurrentUserType() === 'admin';
 }
 
 // Get user role based on role ID

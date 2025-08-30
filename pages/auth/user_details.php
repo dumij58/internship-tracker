@@ -1,12 +1,6 @@
 <?php
 require_once '../../includes/config.php';
-session_start();
-
-// Check if user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
-}
+requireLogin();
 
 $page_title = 'User Details';
 require_once '../../includes/header.php';
