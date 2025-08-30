@@ -20,30 +20,32 @@ $includes_path = $root_path . '/includes';
     <link rel="stylesheet" href="<?php echo $assets_path; ?>/css/style.css">
 </head>
 <body>
-    <div class="navbar">
+    <header>
         <div class="nav-container">
-            <div class="nav-brand">
-                <a class="nav-brand-link" href="<?php echo $pages_path; ?>/index.php">
-                    <img src="<?php echo $assets_path; ?>/images/logo.webp" class="nav-brand-logo" alt="InternSphere Logo">
-                    <span class="nav-brand-name">InternSphere</span>
-                </a>
-            </div>
-            <div class="nav-links-container">
-                <div class="nav-links">
-                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'student'): ?>
-                        <!-- Student Navigation -->
-                        <a href="<?php echo $pages_path; ?>/student/internships.php">Find Internships</a>
-                        <a href="<?php echo $pages_path; ?>/student/applications.php">My Applications</a>
-                        <a href="<?php echo $pages_path; ?>/student/profile.php">My Profile</a>
-                    <?php elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'company'): ?>
-                        <!-- Company Navigation -->
-                        <a href="<?php echo $pages_path; ?>/company/internships.php">Post Internships</a>
-                        <a href="<?php echo $pages_path; ?>/company/applications.php">Received Applications</a>
-                        <a href="<?php echo $pages_path; ?>/company/profile.php">Company Profile</a>
-                    <?php endif; ?>
-                    <a href="<?php echo $pages_path; ?>/functionalities.php">Functionalities</a>
-                    <a href="<?php echo $pages_path; ?>/help.php">Help</a>
-                    <div class="nav-user dropdown">
+            <nav class="nav-bar">
+                <div class="nav-brand">
+                    <a class="nav-brand-link" href="<?php echo $pages_path; ?>/index.php">
+                        <img src="<?php echo $assets_path; ?>/images/logo.webp" class="nav-brand-logo" alt="InternSphere Logo">
+                        <span class="nav-brand-name">InternSphere</span>
+                    </a>
+                </div>
+                <div class="nav-links-container">
+                    <div class="nav-links">
+                        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'student'): ?>
+                            <!-- Student Navigation -->
+                            <a href="<?php echo $pages_path; ?>/student/internships.php">Find Internships</a>
+                            <a href="<?php echo $pages_path; ?>/student/applications.php">My Applications</a>
+                            <a href="<?php echo $pages_path; ?>/student/profile.php">My Profile</a>
+                        <?php elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'company'): ?>
+                            <!-- Company Navigation -->
+                            <a href="<?php echo $pages_path; ?>/company/internships.php">Post Internships</a>
+                            <a href="<?php echo $pages_path; ?>/company/applications.php">Received Applications</a>
+                            <a href="<?php echo $pages_path; ?>/company/profile.php">Company Profile</a>
+                        <?php endif; ?>
+                        <a href="<?php echo $pages_path; ?>/functionalities.php">Functionalities</a>
+                        <a href="<?php echo $pages_path; ?>/help.php">Help</a>
+                    </div>
+                    <div class="nav-user nav-links dropdown">
                         <?php if (isset($_SESSION['role'])): ?>
                             <span class="nav-user-name">
                                 <?php echo escape($_SESSION['username']); ?>
@@ -64,9 +66,6 @@ $includes_path = $root_path . '/includes';
                         <?php endif; ?>
                     </div>
                 </div>
-            </div>
+            </nav>
         </div>
-    </div>
-
-    <div class="main-container">
-        <div class="content">
+    </header>
