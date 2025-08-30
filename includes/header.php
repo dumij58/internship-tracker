@@ -61,9 +61,6 @@ $includes_path = $root_path . '/includes';
                             <span class="nav-login">
                                 <a href="<?php echo "{$pages_path}/auth/login.php"; ?>">Login</a>
                             </span>
-                            <span class="nav-register">
-                                <a href="<?php echo "{$pages_path}/auth/register.php"; ?>">Register</a>
-                            </span>
                         <?php endif; ?>
                     </div>
                 </div>
