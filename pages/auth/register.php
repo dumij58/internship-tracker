@@ -46,8 +46,8 @@ if(isset($_POST['signIn'])){
             $_SESSION['user_id'] = $row['user_id'];
             $_SESSION['email'] = $row['email'];
             $_SESSION['username'] = $row['username'];
-            $_SESSION['user_type_id'] = $row['user_type_id'];
-            
+            $_SESSION['role'] = getUserRole($row['user_type_id']);
+
             // Check if user has completed profile
             $check_profile = "SELECT user_id FROM student_profiles WHERE user_id = ?";
             $stmt = $db->prepare($check_profile);

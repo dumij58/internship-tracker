@@ -6,11 +6,11 @@ require_once '../../includes/config.php';
 // --- Page-specific variables ---
 $page_title = 'Admin Login';
 global $pages_path;
-$tasks_path = $pages_path . 'tasks';
+$tasks_path = $pages_path . '/admin/tasks';
 $db = getDB();
 
 // --- Include the header ---
-require_once '../../includes/header_admin.php';
+require_once '../../includes/header.php';
 ?>
 
 <div class="admin-panel">
@@ -54,17 +54,14 @@ require_once '../../includes/header_admin.php';
             </tr>
         </table>
     </div>
-    <!--
     <div class="admin-logs">
         <h2>System Logs</h2>
         <table border="0" colspan="4" cellspacing="10" width="100%">
             <tr>
                 <th>User ID</th>
-                <th>Applications</th>
-                <th>Companies</th>
-                <th>Internships</th>
+                <th>Action</th>
+                <th>Details</th>
             </tr>
-            /*
             <?php
             $stmt = $db->query("SELECT * FROM system_logs ORDER BY created_at DESC LIMIT 5");
             while ($log = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -75,13 +72,11 @@ require_once '../../includes/header_admin.php';
                     </tr>";
             }
             ?>
-            */
             <tr colspan="4">
                 <td>View all logs</td>
             </tr>
         </table>
     </div>
-        -->
 </div>
 
 <?php

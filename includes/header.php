@@ -5,10 +5,7 @@ require_once 'config.php';
 
 // Set a default title if one isn't provided by the page including this file
 $current_page_title = isset($page_title) ? $page_title : 'InternSphere';
-$root_path = isset($path_prefix) ? $path_prefix : '/internship-tracker';
-$pages_path = $root_path . '/pages';
-$assets_path = $root_path . '/assets';
-$includes_path = $root_path . '/includes';
+global $root_path, $pages_path, $assets_path;
 ?>
 
 <!DOCTYPE html>
@@ -24,26 +21,35 @@ $includes_path = $root_path . '/includes';
         <div class="nav-container">
             <nav class="nav-bar">
                 <div class="nav-brand">
-                    <a class="nav-brand-link" href="<?php echo $pages_path; ?>/index.php">
+                    <a class="nav-brand-link" href="<?php echo $root_path; ?>/index.php">
                         <img src="<?php echo $assets_path; ?>/images/logo.webp" class="nav-brand-logo" alt="InternSphere Logo">
                         <span class="nav-brand-name">InternSphere</span>
                     </a>
                 </div>
                 <div class="nav-links-container">
                     <div class="nav-links">
-                        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'student'): ?>
-                            <!-- Student Navigation -->
-                            <a href="<?php echo $pages_path; ?>/student/internships.php">Find Internships</a>
-                            <a href="<?php echo $pages_path; ?>/student/applications.php">My Applications</a>
-                            <a href="<?php echo $pages_path; ?>/student/profile.php">My Profile</a>
-                        <?php elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'company'): ?>
-                            <!-- Company Navigation -->
-                            <a href="<?php echo $pages_path; ?>/company/internships.php">Post Internships</a>
-                            <a href="<?php echo $pages_path; ?>/company/applications.php">Received Applications</a>
-                            <a href="<?php echo $pages_path; ?>/company/profile.php">Company Profile</a>
+                        <?php if (isset($_SESSION['role'])): ?>
+                            <?php if ($_SESSION['role'] === 'student'): ?>
+                                <!-- Student Navigation -->
+                                <a href="<?php echo $pages_path; ?>/student/internships.php">Find Internships</a>
+                                <a href="<?php echo $pages_path; ?>/student/applications.php">My Applications</a>
+                                <a href="<?php echo $pages_path; ?>/student/profile.php">My Profile</a>
+                            <?php elseif ($_SESSION['role'] === 'company'): ?>
+                                <!-- Company Navigation -->
+                                <a href="<?php echo $pages_path; ?>/company/internships.php">Post Internships</a>
+                                <a href="<?php echo $pages_path; ?>/company/applications.php">Received Applications</a>
+                                <a href="<?php echo $pages_path; ?>/company/profile.php">Company Profile</a>
+                            <?php elseif ($_SESSION['role'] === 'admin'): ?>
+                                <!-- Admin Navigation -->
+                                <a href="<?php echo $pages_path; ?>/admin/index.php">Dashboard</a>
+                                <a href="<?php echo $pages_path; ?>/admin/tasks.php">Tasks</a>
+                                <a href="<?php echo $pages_path; ?>/admin/reports.php">Reports</a>
+                            <?php endif; ?>
+                            <?php if ($_SESSION['role'] !== 'admin'): ?>
+                                <a href="<?php echo $pages_path; ?>/functionalities.php">Functionalities</a>
+                                <a href="<?php echo $pages_path; ?>/help.php">Help</a>
+                            <?php endif; ?>
                         <?php endif; ?>
-                        <a href="<?php echo $pages_path; ?>/functionalities.php">Functionalities</a>
-                        <a href="<?php echo $pages_path; ?>/help.php">Help</a>
                     </div>
                     <div class="nav-user nav-links dropdown">
                         <?php if (isset($_SESSION['role'])): ?>
@@ -61,7 +67,8 @@ $includes_path = $root_path . '/includes';
                             </div>
                         <?php else: ?>
                             <span class="nav-login">
-                                <a href="<?php echo "{$pages_path}/auth/login.php"; ?>">Login</a>
+                                <!-- Checks if the current page is an admin page or not and sets the login page path accordingly -->
+                                <a href="<?php echo $pages_path . (basename(dirname($_SERVER['PHP_SELF'])) === 'admin' ? '/admin' : '/auth') . '/login.php'; ?>">Login</a>
                             </span>
                         <?php endif; ?>
                     </div>

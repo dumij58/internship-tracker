@@ -40,6 +40,8 @@ ini_set('display_errors', 1);
 // Define paths
 $root_path = isset($path_prefix) ? $path_prefix : '/internship-tracker';
 $pages_path = $root_path . '/pages';
+$assets_path = $root_path . '/assets';
+$includes_path = $root_path . '/includes';
 
 /**
  * Database Connection Function
@@ -107,11 +109,6 @@ function getCurrentUserId() {
     return isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 }
 
-// Get current user type
-function getCurrentUserType() {
-    return isset($_SESSION['user_type_id']) ? getUserRole($_SESSION['user_type_id']) : null;
-}
-
 // Redirect to login if not logged in
 function requireLogin() {
     global $pages_path;
@@ -127,7 +124,7 @@ function requireAdmin() {
     global $pages_path;
     requireLogin();
     if (!isAdmin()) {
-        header('Location: ' . $pages_path . '/error.php?error_code=403&error_message=Access denied. Admin privileges required.');
+        header('Location: ' . $pages_path . '/error.php?error_message=403 - Access denied. Admin privileges required.');
         exit();
     }
 }
@@ -139,12 +136,12 @@ function isLoggedIn() {
 
 // Check if current user is admin
 function isAdmin() {
-    return getCurrentUserType() === 'admin';
+    return isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 }
 
 // Get user role based on role ID
-function getUserRole($role) {
-    switch($role) {
+function getUserRole($user_type_id) {
+    switch($user_type_id) {
         case 1: return 'admin';
         case 2: return 'student';
         case 3: return 'company';
@@ -164,7 +161,12 @@ function verifyPassword($password, $hash) {
 
 // Sanitizes output to prevent XSS attacks.
 function escape($data) {
-    return htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
+    if (isset($data)) {
+        return htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
+    } else {
+        return '';
+    }
+    
 }
 
 /**

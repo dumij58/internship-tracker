@@ -8,7 +8,7 @@ $page_title = 'Manage Applications';
 $db = getDB();
 
 // --- Include the header ---
-require_once '../../../includes/header_admin.php';
+require_once '../../../includes/header.php';
 ?>
 
 <div class="admin-panel-tasks">

@@ -8,7 +8,7 @@ $page_title = 'Manage Users';
 $db = getDB();
 
 // --- Include the header ---
-require_once '../../../includes/header_admin.php';
+require_once '../../../includes/header.php';
 ?>
 
 <div class="admin-panel-tasks">
@@ -36,5 +36,5 @@ require_once '../../../includes/header_admin.php';
 
 <?php
 // --- Include the footer ---
-require_once '../../../includes/footer_admin.php';
+require_once '../../../includes/footer.php';
 ?>
