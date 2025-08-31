@@ -57,7 +57,7 @@ if(isset($_POST['signIn'])){
                 // Profile exists, redirect to main page
                 echo "<script>
                     alert('Welcome back, " . $row['username'] . "!');
-                    window.location.href='../../pages/index.php';
+                    window.location.href='../../index.php';
                 </script>";
             } else {
                 // No profile, redirect to user details form

@@ -68,8 +68,8 @@ require_once '../../../includes/header.php';
 
 <div class="admin-panel-tasks">
     <h2>Students List</h2>
-    <button onclick="document.getElementById('addStudentForm').style.display='block'" class="btn btn-primary mb-3">Add Student</button>
-    <table border="1" width="90%" align="center">
+    <button onclick="document.getElementById('addStudentForm').style.display='block'" class="btn btn-primary btn-rg mb-3">Add Student</button>
+    <table width="90%" align="center" class="admin-task-table">
         <tr>
             <th>User ID</th>
             <th>Username</th>
@@ -79,7 +79,7 @@ require_once '../../../includes/header.php';
         <?php
         $stmt = $db->query("SELECT user_id, username, email FROM users WHERE user_type_id = 2");
         while ($user = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            echo "<tr data-userid='{$user['user_id']}' data-username='".escape($user['username'])."' data-email='".escape($user['email'])."' align='center'>
+            echo "<tr data-userid='{$user['user_id']}' data-username='".escape($user['username'])."' data-email='".escape($user['email'])."' align='center' class='table-row'>
                     <td>".escape($user['user_id'])."</td>
                     <td>".escape($user['username'])."</td>
                     <td>".escape($user['email'])."</td>
