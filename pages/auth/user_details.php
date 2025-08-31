@@ -32,10 +32,6 @@ require_once '../../includes/header.php';
                                 <label for="phone" class="form-label">Phone Number *</label>
                                 <input type="tel" class="form-control" id="phone" name="phone" required>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="password" class="form-label">Password *</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
-                            </div>
                         </div>
 
                         <!-- Academic Details -->

@@ -2,13 +2,14 @@
 require_once '../../includes/config.php';
 requireLogin(); 
 
+$db = getDB();
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         // Get form data
         $full_name = $_POST['full_name'];
         $email = $_POST['email'];
         $phone = $_POST['phone'];
-        $password = $_POST['password'];
         $university = $_POST['university'];
         $degree_program = $_POST['degree_program'];
         $year_of_study = $_POST['year_of_study'];
@@ -16,14 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $key_skills = $_POST['key_skills'];
         $areas_of_interest = $_POST['areas_of_interest'];
         $portfolio_links = $_POST['portfolio_links'] ?: null;
-
-        // Update user password if provided
-        if (!empty($password)) {
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $update_user = "UPDATE users SET password_hash = ? WHERE user_id = ?";
-            $stmt = $db->prepare($update_user);
-            $stmt->execute([$hashed_password, $_SESSION['user_id']]);
-        }
 
         // Check if student profile already exists
         $check_profile = "SELECT id FROM student_profiles WHERE user_id = ?";
@@ -88,12 +81,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             alert('User details saved successfully!');
             window.location.href='../../pages/index.php';
         </script>";
-        
+        logActivity('User details saved successfully');
+
     } catch (Exception $e) {
         echo "<script>
             alert('Error saving user details: " . $e->getMessage() . "');
             window.location.href='user_details.php';
         </script>";
+        logActivity('Error saving user details', $e->getMessage());
     }
 } else {
     header("Location: user_details.php");
