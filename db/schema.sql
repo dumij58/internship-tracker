@@ -1,6 +1,6 @@
 -- Create Database
-CREATE DATABASE IF NOT EXISTS internship_tracker;
-USE internship_tracker;
+CREATE DATABASE IF NOT EXISTS internsphere;
+USE internsphere;
 
 -- User Types/Roles Table
 CREATE TABLE user_types (
@@ -55,14 +55,6 @@ CREATE TABLE company_profiles (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
--- Internship Categories
-CREATE TABLE internship_categories (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    category_name VARCHAR(100) NOT NULL UNIQUE,
-    category_description TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
 -- Main Internships Table
 CREATE TABLE internships (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -85,22 +77,10 @@ CREATE TABLE internships (
     created_by INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (company_id) REFERENCES company_profiles(profile_id),
-    FOREIGN KEY (category_id) REFERENCES internship_categories(category_id),
+    FOREIGN KEY (company_id) REFERENCES company_profiles(id),
     FOREIGN KEY (created_by) REFERENCES users(user_id)
 );
 
--- Internship Skills Required
-CREATE TABLE internship_skills (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    internship_id INT NOT NULL,
-    skill_name VARCHAR(100) NOT NULL,
-    skill_level ENUM('basic', 'intermediate', 'advanced') DEFAULT 'basic',
-    is_required BOOLEAN DEFAULT TRUE,
-    FOREIGN KEY (internship_id) REFERENCES internships(internship_id) ON DELETE CASCADE
-);
-
--- Applications Table
 CREATE TABLE applications (
     id INT AUTO_INCREMENT PRIMARY KEY,
     internship_id INT NOT NULL,
@@ -113,10 +93,8 @@ CREATE TABLE applications (
     reviewed_by INT NULL,
     interview_scheduled TIMESTAMP NULL,
     interview_notes TEXT,
-    FOREIGN KEY (internship_id) REFERENCES internships(internship_id),
-    FOREIGN KEY (student_id) REFERENCES users(user_id),
-    FOREIGN KEY (reviewed_by) REFERENCES users(user_id),
-    UNIQUE KEY unique_application (internship_id, student_id)
+    FOREIGN KEY (internship_id) REFERENCES internships(id),
+    FOREIGN KEY (student_id) REFERENCES users(user_id)
 );
 
 -- System Logs (for audit trail)
@@ -146,6 +124,39 @@ CREATE TABLE notifications (
 
 
 -- ====================================
+--  INDEXES FOR PERFORMANCE
+-- ====================================
+
+-- Users: index for login and lookup
+CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX idx_users_username ON users(username);
+CREATE INDEX idx_users_user_type_id ON users(user_type_id);
+
+-- Student Profiles: index for user_id
+CREATE INDEX idx_student_profiles_user_id ON student_profiles(user_id);
+
+-- Company Profiles: index for user_id
+CREATE INDEX idx_company_profiles_user_id ON company_profiles(user_id);
+CREATE INDEX idx_company_profiles_company_name ON company_profiles(company_name);
+
+-- Internships: indexes for company, category, and status
+CREATE INDEX idx_internships_company_id ON internships(company_id);
+CREATE INDEX idx_internships_category_id ON internships(category_id);
+CREATE INDEX idx_internships_status ON internships(status);
+CREATE INDEX idx_internships_created_by ON internships(created_by);
+
+-- Applications: indexes for internship, student, and status
+CREATE INDEX idx_applications_internship_id ON applications(internship_id);
+CREATE INDEX idx_applications_student_id ON applications(student_id);
+CREATE INDEX idx_applications_status ON applications(status);
+
+-- Notifications: indexes for user and read status
+CREATE INDEX idx_notifications_user_id ON notifications(user_id);
+CREATE INDEX idx_notifications_is_read ON notifications(is_read);
+
+
+
+-- ====================================
 --  INSERT DEFAULT DATA
 -- ====================================
 
@@ -153,26 +164,17 @@ CREATE TABLE notifications (
 INSERT INTO user_types (type_name, type_description) VALUES
 ('administrator', 'System administrator with full access'),
 ('student', 'Student user who can apply for internships'),
-('company', 'Company representative who can post internships'),
-
--- Insert Default Categories
-INSERT INTO internship_categories (category_name, category_description) VALUES
-('Software Development', 'Programming and software engineering roles'),
-('Data Science', 'Data analysis, machine learning, and analytics'),
-('Marketing', 'Digital marketing, content creation, and brand management'),
-('Design', 'UI/UX design, graphic design, and creative roles'),
-('Business', 'Business development, consulting, and management'),
-('Research', 'Academic and industry research positions');
+('company', 'Company representative who can post internships');
 
 -- Create Default Admin User (password: admin123)
-INSERT INTO users (username, email, password_hash, first_name, last_name, user_type_id) VALUES
-('admin', 'admin@internship-system.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'System', 'Administrator', 1);
+INSERT INTO users (username, email, password_hash, user_type_id) VALUES
+('admin', 'admin@internship-system.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1);
 
 -- Create Default Student User (password: student123)
-INSERT INTO users (username, email, password_hash, first_name, last_name, user_type_id) VALUES
-('student', 'student@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Student', '1', 2);
-('student2', 'student2@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Student', '2', 2);
+INSERT INTO users (username, email, password_hash, user_type_id) VALUES
+('student', 'student@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2),
+('student2', 'student2@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2);
 
 -- Create Student Profile for Default Student
-INSERT INTO student_profiles (user_id, student_id, first_name, last_name, phone, bio, university, major, year_of_study, gpa) VALUES
-(2, 'STU001', 'Student1', 'Name', '94712808865', 'Default user for InternSphere web application', 'Default University', 'Computer Science', 3, 3.50);
+INSERT INTO student_profiles (user_id, student_id, phone, bio, university, major, year_of_study, gpa) VALUES
+(2, 'STU001', '94712808865', 'Default user for InternSphere web application', 'Default University', 'Computer Science', 3, 3.50);
