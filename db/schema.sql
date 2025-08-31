@@ -162,18 +162,15 @@ CREATE INDEX idx_notifications_is_read ON notifications(is_read);
 
 -- Insert User Types
 INSERT INTO user_types (type_name, type_description) VALUES
-('administrator', 'System administrator with full access'),
+('admin', 'System administrator with full access'),
 ('student', 'Student user who can apply for internships'),
 ('company', 'Company representative who can post internships');
 
--- Create Default Admin User (password: admin123)
+-- Create Default Users (username,password - admin, admin123; student, student123; company, company123)
 INSERT INTO users (username, email, password_hash, user_type_id) VALUES
-('admin', 'admin@internship-system.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1);
-
--- Create Default Student User (password: student123)
-INSERT INTO users (username, email, password_hash, user_type_id) VALUES
-('student', 'student@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2),
-('student2', 'student2@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2);
+('admin', 'admin@example.com', '$2y$10$bRJWHT4uyMDkYGpBz/PUz.BzB56rmxZHTMG7eoLNgdHgYPEepoIqG', 1),
+('student', 'student@example.com', '$2y$10$s28tVzy9K7vfqSez4aKYHuI4eeBfAyKhqwD4ZGlkMsNwYEC5f8qba', 2),
+('company', 'company@example.com', '$2y$10$eN3LQJqiTnR6aKQQDtEC4u247abHOI.H6AZIHi45eO6U93Jnr8l4e', 3);
 
 -- Create Student Profile for Default Student
 INSERT INTO student_profiles (user_id, student_id, phone, bio, university, major, year_of_study, gpa) VALUES
