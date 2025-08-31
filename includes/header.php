@@ -69,3 +69,7 @@ $includes_path = $root_path . '/includes';
             </nav>
         </div>
     </header>
+
+
+    <div class="main-container">
+        <div class="content">
