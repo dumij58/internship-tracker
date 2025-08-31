@@ -1,7 +1,7 @@
 <?php
 // Admin dashboard page for managing users and functionalities.
 require_once '../../includes/config.php';
-//requireAdmin();
+requireAdmin();
 
 // --- Page-specific variables ---
 $page_title = 'Admin Login';
