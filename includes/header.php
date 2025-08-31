@@ -4,7 +4,7 @@
 require_once 'config.php';
 
 // Set a default title if one isn't provided by the page including this file
-$current_page_title = isset($page_title) ? $page_title : 'Internship Tracker';
+$current_page_title = isset($page_title) ? $page_title : 'InternSphere';
 $root_path = isset($path_prefix) ? $path_prefix : '/internship-tracker';
 $pages_path = $root_path . '/pages';
 $assets_path = $root_path . '/assets';

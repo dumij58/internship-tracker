@@ -279,7 +279,13 @@ form p a {
     justify-content: space-between;
 }
 
-.btn-field button {
+.btn-field-center{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-field button, .btn-field-center button {
     flex-basis: 48%;
     background: rgb(0, 92, 137);
     color: #fff;
@@ -300,6 +306,11 @@ form p a {
     background: #eaeaea;
     color: #555;
 }
+
+.login-btn:hover{
+    background: rgb(1, 135, 201);
+    transition: 0.3s ease;
+} 
 
 
 /* ============================ */
