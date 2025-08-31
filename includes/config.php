@@ -17,7 +17,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Database Configuration
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'internship_tracker');
+define('DB_NAME', 'internsphere');
 define('DB_USER', 'dumij58'); // Change this to your MySQL username
 define('DB_PASS', 'mysqldbpassword'); // Change this to your MySQL password
 
@@ -154,11 +154,6 @@ function hashPassword($password) {
     return password_hash($password, HASH_ALGO);
 }
 
-// Verify password
-function verifyPassword($password, $hash) {
-    return password_verify($password, $hash);
-}
-
 // Sanitizes output to prevent XSS attacks.
 function escape($data) {
     if (isset($data)) {
@@ -176,11 +171,9 @@ function escape($data) {
 function logActivity($action, $details = null) {
     $db = getDB();
     $user_id = $_SESSION['user_id'] ?? null;
-    $ip_address = $_SERVER['REMOTE_ADDR'] ?? null;
-    
-    $sql = "INSERT INTO system_logs (user_id, action, details, ip_address) VALUES (:uid, :action, :details, :ip)";
+    $sql = "INSERT INTO system_logs (user_id, action, details) VALUES (:uid, :action, :details)";
     $stmt = $db->prepare($sql);
-    $stmt->execute(['uid' => $user_id, 'action' => $action, 'details' => $details, 'ip' => $ip_address]);
+    $stmt->execute(['uid' => $user_id, 'action' => $action, 'details' => $details]);
 }
 
 ?>
