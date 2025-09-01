@@ -33,29 +33,32 @@ require_once '../../includes/header.php';
     </div>
     <div class="admin-tasks">
         <h2>Administrative Tasks</h2>
-        <table border="0" colspan="4" cellspacing="10" width="100%">
+        <table border="0" colspan="4" cellspacing="10" width="100%" class="admin-task-table">
             <tr>
                 <th>Students</th>
                 <th>Applications</th>
                 <th>Companies</th>
                 <th>Internships</th>
             </tr>
-            <tr align="center">
+            <tr align="center" class="table-row-rg">
                 <td><a href=<?php echo $tasks_path . '/students.php';?>>Manage Students</a></td>
                 <td><a href=<?php echo $tasks_path . '/applications.php';?>>Manage Applications</a></td>
                 <td><a href=<?php echo $tasks_path . '/companies.php';?>>Manage Companies</a></td>
                 <td><a href=<?php echo $tasks_path . '/internships.php';?>>Manage Internships</a></td>
             </tr>
-            <tr align="center">
+            <tr align="center" class="table-row-rg">
                 <td><a href=<?php echo $tasks_path . '/student_profiles.php';?>>Manage Student Profiles</a></td>
                 <td></td>
                 <td><a href=<?php echo $tasks_path . '/company_profiles.php';?>>Manage Company Profiles</a></td>
-                <td><a href=<?php echo $tasks_path . '/internship_categories.php';?>>Internship Categories</a></td>
+                <td></td>
             </tr>
         </table>
     </div>
     <div class="admin-logs">
-        <h2>System Logs</h2>
+        <div class="h2c">
+            <span>Recent System Logs</span>
+            <span class="h-link"><a href="<?php echo $tasks_path . '/system_logs.php'; ?>">View all logs</a></span>
+        </div>
         <table border="0" colspan="4" cellspacing="10" width="100%">
             <tr>
                 <th>User ID</th>
@@ -72,9 +75,6 @@ require_once '../../includes/header.php';
                     </tr>";
             }
             ?>
-            <tr colspan="4">
-                <td>View all logs</td>
-            </tr>
         </table>
     </div>
 </div>

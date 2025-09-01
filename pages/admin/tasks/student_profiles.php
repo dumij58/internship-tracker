@@ -1,40 +1,103 @@
+
 <?php
-// Admin dashboard page for managing users and functionalities.
 require_once '../../../includes/config.php';
 //requireAdmin();
-
-// --- Page-specific variables ---
 $page_title = 'Manage Student Profiles';
 $db = getDB();
 
-// --- Include the header ---
+// Handle AJAX requests for CRUD
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    header('Content-Type: application/json');
+    // Add Student Profile
+    if (isset($_POST['add_student_profile'])) {
+        $first_name = trim($_POST['first_name']);
+        $last_name = trim($_POST['last_name']);
+        if (!$first_name || !$last_name) {
+            echo json_encode(['success' => false, 'message' => 'First and last name required.']);
+            exit;
+        }
+        $stmt = $db->prepare('INSERT INTO student_profiles (first_name, last_name) VALUES (?, ?)');
+        $stmt->execute([$first_name, $last_name]);
+        echo json_encode(['success' => true, 'message' => 'Student profile added successfully.']);
+        exit;
+    }
+    // Edit Student Profile
+    if (isset($_POST['edit_id'])) {
+        $id = intval($_POST['edit_id']);
+        $first_name = trim($_POST['edit_first_name']);
+        $last_name = trim($_POST['edit_last_name']);
+        if (!$first_name || !$last_name) {
+            echo json_encode(['success' => false, 'message' => 'First and last name required.']);
+            exit;
+        }
+        $stmt = $db->prepare('UPDATE student_profiles SET first_name = ?, last_name = ? WHERE id = ?');
+        $stmt->execute([$first_name, $last_name, $id]);
+        echo json_encode(['success' => true, 'message' => 'Student profile updated successfully.']);
+        exit;
+    }
+    // Delete Student Profile
+    if (isset($_POST['delete_id'])) {
+        $id = intval($_POST['delete_id']);
+        $stmt = $db->prepare('DELETE FROM student_profiles WHERE id = ?');
+        $stmt->execute([$id]);
+        echo json_encode(['success' => true, 'message' => 'Student profile deleted successfully.']);
+        exit;
+    }
+    echo json_encode(['success' => false, 'message' => 'Invalid request.']);
+    exit;
+}
+
 require_once '../../../includes/header.php';
 ?>
 
 <div class="admin-panel-tasks">
     <h2>Student Profiles</h2>
-    <table border="1" colspan="4" width="90%" align="center">
+    <button onclick="document.getElementById('addStudentProfileForm').style.display='block'" class="btn btn-primary btn-rg mb-3">Add Student Profile</button>
+    <table width="90%" align="center" class="admin-task-table">
         <tr>
-            <th>User ID</th>
-            <th>Username</th>
-            <th>Email</th>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Actions</th>
         </tr>
         <?php
-        // Fetch users from the database
-        $stmt = $db->query("SELECT * FROM users JOIN student_profiles AS sp ON sp.user_id = users.user_id WHERE user_type_id = 2;");
-        while ($user = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $role = getUserRole($user['user_type_id']);
-            echo "<tr align='center'>
-                    <td>{$user['user_id']}</td>
-                    <td>{$user['username']}</td>
-                    <td>{$user['email']}</td>
-                </tr>";
+        $stmt = $db->query("SELECT id, first_name, last_name FROM student_profiles");
+        while ($profile = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            echo "<tr data-id='{$profile['id']}' data-firstname='".escape($profile['first_name'])."' data-lastname='".escape($profile['last_name'])."' align='center' class='table-row'>
+                    <td>".escape($profile['id'])."</td>
+                    <td>".escape($profile['first_name'])."</td>
+                    <td>".escape($profile['last_name'])."</td>
+                    <td>
+                        <button class='edit-btn btn btn-primary btn-sm'>Edit</button>
+                        <button class='delete-btn btn btn-danger btn-sm' data-id='".escape($profile['id'])."'>Delete</button>
+                    </td>
+                  </tr>";
         }
         ?>
     </table>
-</div>
 
-<?php
-// --- Include the footer ---
-require_once '../../../includes/footer.php';
-?>
+    <!-- Add Student Profile Form -->
+    <form id="addStudentProfileForm" style="display:none; margin:20px 0;" method="post">
+        <h3>Add Student Profile</h3>
+        <input type="hidden" name="add_student_profile" value="1">
+        <label>First Name: <input type="text" name="first_name" required></label><br>
+        <label>Last Name: <input type="text" name="last_name" required></label><br>
+        <button type="submit" class="btn btn-primary">Add</button>
+        <button type="button" onclick="this.form.style.display='none'" class="btn">Cancel</button>
+    </form>
+
+    <!-- Edit Student Profile Modal -->
+    <div id="editModal" style="display:none; position:fixed; top:20%; left:50%; transform:translate(-50%,0); background:#fff; padding:20px; border:1px solid #ccc; z-index:1000;">
+        <form id="editStudentProfileForm" method="post">
+            <h3>Edit Student Profile</h3>
+            <input type="hidden" name="edit_id" id="edit_id">
+            <label>First Name: <input type="text" name="edit_first_name" id="edit_first_name" required></label><br>
+            <label>Last Name: <input type="text" name="edit_last_name" id="edit_last_name" required></label><br>
+            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="button" id="closeEditModal" class="btn">Cancel</button>
+        </form>
+    </div>
+</div>
+<script src="../../../assets/js/admin_student_profiles.js"></script>
+
+<?php require_once '../../../includes/footer.php'; ?>

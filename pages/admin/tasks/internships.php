@@ -1,44 +1,103 @@
-<?php
-// Admin dashboard page for managing users and functionalities.
-require_once '../../../includes/config.php';
-//requireAdmin();
 
-// --- Page-specific variables ---
-$page_title = 'Manage Applications';
+<?php
+require_once '../../../includes/config.php';
+requireAdmin();
+$page_title = 'Manage Internships';
 $db = getDB();
 
-// --- Include the header ---
+// Handle AJAX requests for CRUD
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    header('Content-Type: application/json');
+    // Add Internship
+    if (isset($_POST['add_internship'])) {
+        $title = trim($_POST['title']);
+        $status = trim($_POST['status']);
+        if (!$title) {
+            echo json_encode(['success' => false, 'message' => 'Title required.']);
+            exit;
+        }
+        $stmt = $db->prepare('INSERT INTO internships (title, status) VALUES (?, ?)');
+        $stmt->execute([$title, $status]);
+        echo json_encode(['success' => true, 'message' => 'Internship added successfully.']);
+        exit;
+    }
+    // Edit Internship
+    if (isset($_POST['edit_id'])) {
+        $id = intval($_POST['edit_id']);
+        $title = trim($_POST['edit_title']);
+        $status = trim($_POST['edit_status']);
+        if (!$title) {
+            echo json_encode(['success' => false, 'message' => 'Title required.']);
+            exit;
+        }
+        $stmt = $db->prepare('UPDATE internships SET title = ?, status = ? WHERE internship_id = ?');
+        $stmt->execute([$title, $status, $id]);
+        echo json_encode(['success' => true, 'message' => 'Internship updated successfully.']);
+        exit;
+    }
+    // Delete Internship
+    if (isset($_POST['delete_id'])) {
+        $id = intval($_POST['delete_id']);
+        $stmt = $db->prepare('DELETE FROM internships WHERE internship_id = ?');
+        $stmt->execute([$id]);
+        echo json_encode(['success' => true, 'message' => 'Internship deleted successfully.']);
+        exit;
+    }
+    echo json_encode(['success' => false, 'message' => 'Invalid request.']);
+    exit;
+}
+
 require_once '../../../includes/header.php';
 ?>
 
 <div class="admin-panel-tasks">
     <h2>Internships</h2>
-    <table border="1" colspan="4" width="90%" align="center">
+    <button onclick="document.getElementById('addInternshipForm').style.display='block'" class="btn btn-primary btn-rg mb-3">Add Internship</button>
+    <table width="90%" align="center" class="admin-task-table">
         <tr>
             <th>ID</th>
-            <th>Company Username</th>
             <th>Title</th>
-            <th>Description</th>
             <th>Status</th>
+            <th>Actions</th>
         </tr>
         <?php
-        // Fetch applications from the database
-        $stmt = $db->query("SELECT internship_id, company_id, title, description, status FROM internships");
+        $stmt = $db->query("SELECT id, title, status FROM internships");
         while ($internship = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $company = getUser($internship['company_id']);
-            echo "<tr align='center'>
-                    <td>{$internship['internship_id']}</td>
-                    <td>{$company['username']}</td>
-                    <td>{$internship['title']}</td>
-                    <td>{$internship['description']}</td>
-                    <td>{$internship['status']}</td>
+            echo "<tr data-id='{$internship['id']}' data-title='".escape($internship['title'])."' data-status='".escape($internship['status'])."' align='center' class='table-row'>
+                    <td>".escape($internship['id'])."</td>
+                    <td>".escape($internship['title'])."</td>
+                    <td>".escape($internship['status'])."</td>
+                    <td>
+                        <button class='edit-btn btn btn-primary btn-sm'>Edit</button>
+                        <button class='delete-btn btn btn-danger btn-sm' data-id='".escape($internship['id'])."'>Delete</button>
+                    </td>
                   </tr>";
         }
         ?>
     </table>
-</div>
 
-<?php
-// --- Include the footer ---
-require_once '../../../includes/footer.php';
-?>
+    <!-- Add Internship Form -->
+    <form id="addInternshipForm" style="display:none; margin:20px 0;" method="post">
+        <h3>Add Internship</h3>
+        <input type="hidden" name="add_internship" value="1">
+        <label>Title: <input type="text" name="title" required></label><br>
+        <label>Status: <input type="text" name="status"></label><br>
+        <button type="submit" class="btn btn-primary">Add</button>
+        <button type="button" onclick="this.form.style.display='none'" class="btn">Cancel</button>
+    </form>
+
+    <!-- Edit Internship Modal -->
+    <div id="editModal" style="display:none; position:fixed; top:20%; left:50%; transform:translate(-50%,0); background:#fff; padding:20px; border:1px solid #ccc; z-index:1000;">
+        <form id="editInternshipForm" method="post">
+            <h3>Edit Internship</h3>
+            <input type="hidden" name="edit_id" id="edit_id">
+            <label>Title: <input type="text" name="edit_title" id="edit_title" required></label><br>
+            <label>Status: <input type="text" name="edit_status" id="edit_status"></label><br>
+            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="button" id="closeEditModal" class="btn">Cancel</button>
+        </form>
+    </div>
+</div>
+<script src="../../../assets/js/admin_internships.js"></script>
+
+<?php require_once '../../../includes/footer.php'; ?>
