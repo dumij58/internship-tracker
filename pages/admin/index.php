@@ -9,27 +9,54 @@ global $pages_path;
 $tasks_path = $pages_path . '/admin/tasks';
 $db = getDB();
 
+// Get overview statistics
+$totalAdmins = getCount($db, 'users', 'user_type_id = ?', [1]);
+$totalUsers = getCount($db, 'users') - $totalAdmins;
+$totalStudents = getCount($db, 'users', 'user_type_id = ?', [2]);
+$totalCompanies = getCount($db, 'users', 'user_type_id = ?', [3]);
+$totalInternships = getCount($db, 'internships');
+$activeInternships = getCount($db, 'internships', 'status = ?', ['published']);
+$totalApplications = getCount($db, 'applications');
+$verifiedCompanies = getCount($db, 'company_profiles', 'verified = ?', [1]);
+$acceptedApplications = getCount($db, 'applications', 'status = ?', ['accepted']);
+
 // --- Include the header ---
 require_once '../../includes/header.php';
 ?>
 
 <div class="admin-panel">
     <div class="admin-analytics">
-        <h2>System Analytics</h2>
-        <table border="0" colspan="4" cellspacing="10" width="100%">
-            <tr>
-                <th>Users</th>
-                <th>Applications</th>
-                <th>Companies</th>
-                <th>Internships</th>
-            </tr>
-            <tr align="center">
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-            </tr>
-        </table>
+        <div class="h2c">
+            <span>System Overview</span>
+            <span class="h-link"><a href="<?php echo $pages_path . '/admin/analytics.php'; ?>">View Analytics</a></span>
+        </div>
+        <div class="analytics-container">
+            <div class="dash-overview-grid">
+                <div class="stat-card">
+                    <h3>Students</h3>
+                    <div class="stat-number"><?php echo number_format($totalStudents); ?></div>
+                    <div class="stat-label"><?php echo $totalUsers > 0 ? round(($totalStudents/$totalUsers)*100, 1) : 0; ?>% of total users</div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>Companies</h3>
+                    <div class="stat-number"><?php echo number_format($totalCompanies); ?></div>
+                    <div class="stat-label"><?php echo $verifiedCompanies; ?> verified</div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>Internships</h3>
+                    <div class="stat-number"><?php echo number_format($totalInternships); ?></div>
+                    <div class="stat-label"><?php echo $activeInternships; ?> currently active</div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>Applications</h3>
+                    <div class="stat-number"><?php echo number_format($totalApplications); ?></div>
+                    <div class="stat-label"><?php echo $acceptedApplications; ?> accepted</div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="admin-tasks">
         <h2>Administrative Tasks</h2>

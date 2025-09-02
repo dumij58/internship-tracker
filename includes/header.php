@@ -42,8 +42,8 @@ global $root_path, $pages_path, $assets_path;
                             <?php elseif ($_SESSION['role'] === 'admin'): ?>
                                 <!-- Admin Navigation -->
                                 <a href="<?php echo $pages_path; ?>/admin/index.php">Dashboard</a>
-                                <a href="<?php echo $pages_path; ?>/admin/tasks.php">Tasks</a>
-                                <a href="<?php echo $pages_path; ?>/admin/reports.php">Reports</a>
+                                <a href="<?php echo $pages_path; ?>/admin/analytics.php">Analytics</a>
+                                <a href="<?php echo $pages_path; ?>/admin/system_logs.php">Logs</a>
                             <?php endif; ?>
                             <?php if ($_SESSION['role'] !== 'admin'): ?>
                                 <a href="<?php echo $pages_path; ?>/functionalities.php">Functionalities</a>

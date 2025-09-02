@@ -176,4 +176,22 @@ function logActivity($action, $details = null) {
     $stmt->execute(['uid' => $user_id, 'action' => $action, 'details' => $details]);
 }
 
+// Helper function to get count from a table with optional conditions
+function getCount($db, $table, $condition = null, $params = []) {
+    $sql = "SELECT COUNT(*) FROM $table";
+    if ($condition) {
+        $sql .= " WHERE $condition";
+    }
+    $stmt = $db->prepare($sql);
+    $stmt->execute($params);
+    return $stmt->fetchColumn();
+}
+
+// Helper function to get data
+function getData($db, $sql, $params = []) {
+    $stmt = $db->prepare($sql);
+    $stmt->execute($params);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 ?>
