@@ -6,9 +6,16 @@ $page_title = 'Admin Login';
 global $pages_path;
 $db = getDB();
 
-if (isLoggedIn() && isAdmin()) {
-    header('Location: '. $pages_path . '/admin/index.php');
-    exit();
+if (isLoggedIn()) {
+    if (isAdmin()) {
+        header('Location: '. $pages_path . '/admin/index.php');
+        exit();
+    } else {
+        $role = $_SESSION['role'];
+        header('Location: '. $pages_path . '/error.php' . '?error_message=403-Forbidden');
+        logActivity('Unauthorized Access Attempt', "Non-admin user($role) tried to access admin login page.");
+        exit();
+    }
 }
 
 require_once '../../includes/header.php';

@@ -58,6 +58,7 @@ require_once '../../includes/header.php';
             </div>
         </div>
     </div>
+
     <div class="admin-tasks">
         <h2>Administrative Tasks</h2>
         <table border="0" colspan="4" cellspacing="10" width="100%" class="admin-task-table">
@@ -81,10 +82,11 @@ require_once '../../includes/header.php';
             </tr>
         </table>
     </div>
+    
     <div class="admin-logs">
         <div class="h2c">
             <span>Recent System Logs</span>
-            <span class="h-link"><a href="<?php echo $tasks_path . '/system_logs.php'; ?>">View all logs</a></span>
+            <span class="h-link"><a href="<?php echo $pages_path . '/admin/system_logs.php'; ?>">View all logs</a></span>
         </div>
         <table border="0" colspan="4" cellspacing="10" width="100%">
             <tr>
@@ -95,7 +97,7 @@ require_once '../../includes/header.php';
             <?php
             $stmt = $db->query("SELECT * FROM system_logs ORDER BY created_at DESC LIMIT 5");
             while ($log = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                echo "<tr align='center'>
+                echo "<tr align='center' width='90%' class='admin-task-table'>
                         <td>{$log['user_id']}</td>
                         <td>{$log['action']}</td>
                         <td>{$log['details']}</td>

@@ -1,13 +1,13 @@
 <?php
-require_once '../../../includes/config.php';
+require_once '../../includes/config.php';
 requireAdmin();
 $page_title = 'System Logs';
 $db = getDB();
-require_once '../../../includes/header.php';
+require_once '../../includes/header.php';
 ?>
 <div class="admin-panel-tasks">
         <h2>All System Logs</h2>
-        <table width="100%" class="admin-task-table">
+        <table align="center" width="90%" class="admin-task-table">
         <tr>
             <th>Log ID</th>
             <th>User ID</th>
@@ -31,4 +31,4 @@ require_once '../../../includes/header.php';
         ?>
     </table>
 </div>
-<?php require_once '../../../includes/footer.php'; ?>
+<?php require_once '../../includes/footer.php'; ?>

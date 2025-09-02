@@ -357,7 +357,7 @@ require_once '../../includes/header.php';
      -->
 
     <!-- Quick Actions -->
-    <div class="analytics-section" style="text-align: center; margin-top: 40px; margin-bottom: 0;">
+    <div class="analytics-section" style="text-align: center; margin-top: 20px; margin-bottom: 0;">
         <h2 class="chart-title">Quick Actions</h2>
         <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
             <a href="tasks/students.php" class="btn btn-primary btn-sm">Manage Students</a>

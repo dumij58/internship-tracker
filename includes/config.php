@@ -74,22 +74,6 @@ function getDB() {
     return $db->getDBConnection();
 }
 
-/*
-function getDBTable($db_table) {
-    $db = getDB();
-    try {
-        $sql = 'SELECT * FROM table = :db_table';
-        $stmt = $db->prepare($sql);
-        $stmt->execute(['db_table' => $db_table]);
-        return $stmt->fetch();
-    } catch (PDOException $e) {
-        logActivity('Database Error in '. __FUNCTION__, $e->getMessage());
-        return false;
-    }
-}
-*/
-
-
 // Fetches a user's record from the database by their username.
 function getUser($username) {
     global $db;

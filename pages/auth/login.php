@@ -1,7 +1,21 @@
 <?php
 // Admin dashboard page for managing users and functionalities.
 require_once '../../includes/config.php';
-//requireAdmin();
+
+if (isLoggedIn()) {
+    if (isAdmin()) {
+        // Redirect to admin dashboard
+        logActivity('Redirected to Admin Dashboard', 'Logged-in admin redirected to dashboard.');
+        header('Location: ../admin/index.php');
+        exit;
+    } else {
+        // Redirect to user dashboard
+        $role = $_SESSION['role'];
+        logActivity('Redirected to User Dashboard', "Logged-in user redirected to $role dashboard.");
+        header("Location: ../$role/index.php");
+        exit;
+    }
+}
 
 // --- Page-specific variables ---
 $page_title = 'Login';
