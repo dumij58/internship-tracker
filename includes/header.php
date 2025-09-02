@@ -31,14 +31,14 @@ global $root_path, $pages_path, $assets_path;
                         <?php if (isset($_SESSION['role'])): ?>
                             <?php if ($_SESSION['role'] === 'student'): ?>
                                 <!-- Student Navigation -->
+                                <a href="<?php echo $pages_path; ?>/student/profile.php">My Profile</a>
                                 <a href="<?php echo $pages_path; ?>/student/internships.php">Find Internships</a>
                                 <a href="<?php echo $pages_path; ?>/student/applications.php">My Applications</a>
-                                <a href="<?php echo $pages_path; ?>/student/profile.php">My Profile</a>
                             <?php elseif ($_SESSION['role'] === 'company'): ?>
                                 <!-- Company Navigation -->
+                                <a href="<?php echo $pages_path; ?>/company/profile.php">Company Profile</a>
                                 <a href="<?php echo $pages_path; ?>/company/internships.php">Post Internships</a>
                                 <a href="<?php echo $pages_path; ?>/company/applications.php">Received Applications</a>
-                                <a href="<?php echo $pages_path; ?>/company/profile.php">Company Profile</a>
                             <?php elseif ($_SESSION['role'] === 'admin'): ?>
                                 <!-- Admin Navigation -->
                                 <a href="<?php echo $pages_path; ?>/admin/index.php">Dashboard</a>
