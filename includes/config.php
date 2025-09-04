@@ -38,7 +38,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Define paths
-$root_path = isset($_ENV['path_prefix']) ? $_ENV['path_prefix'] : '/internship-tracker';
+$root_path = isset($_ENV['PATH_PREFIX']) ? $_ENV['PATH_PREFIX'] : '/internship-tracker';
 $pages_path = $root_path . '/pages';
 $assets_path = $root_path . '/assets';
 $includes_path = $root_path . '/includes';
