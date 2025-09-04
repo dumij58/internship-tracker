@@ -5,7 +5,7 @@
  * Run this script to clean up the database after testing
  */
 
-require_once '../includes/config.php';
+require_once '../../includes/config.php';
 requireAdmin();
 
 // Set error reporting

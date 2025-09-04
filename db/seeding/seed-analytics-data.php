@@ -5,7 +5,7 @@
  * Run this script to populate the database with test data
  */
 
-require_once '../includes/config.php';
+require_once '../../includes/config.php';
 requireAdmin();
 
 // Set error reporting
