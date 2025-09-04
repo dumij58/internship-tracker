@@ -53,7 +53,7 @@ InternSphere is a comprehensive internship tracking and application management s
 - [ ] Manage internship listings (Company)
 - [ ] Review student applications (Company)
 - [ ] Company profile management (Company)
-- [ ] System analytics (Admin)
+- [x] System analytics (Admin)
 
 **Roles:**
 
