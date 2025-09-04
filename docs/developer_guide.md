@@ -116,6 +116,7 @@ internship-tracker/
     admin_back_to_dash.php # Admin navigation helper
     
   pages/
+    index.php             # Default page
     error.php             # Error handling page
     admin/
       index.php           # Admin dashboard
@@ -136,15 +137,20 @@ internship-tracker/
       user_details.php    # User profile form
       save_user_details.php # Profile save handler
       LoginPage_README.md # Login system documentation
-      
-  scripts/
-    get_pass_hash.php     # Password hashing utility
-    reset_password.php    # Password reset utility
+
+    company/               # Company pages
+      index.php           # Company dashboard (partial)
+      profile.php         # Company profile 
+      (partial)
+      post_internship.php # Post internship (planned)
+      manage_internships.php # Manage internships (planned)
+      view_applications.php # View applications (planned)
     
-  test/
-    db.sql               # Test database
-    reports.php          # Test reports
-    login/               # Test login system
+    student/               # Student pages
+      index.php           # Student dashboard (partial)
+      profile.php         # Student profile (partial)
+      manage_applications.php  # Manage applications (partial)
+      browse_internships.php # Browse internships (planned)
 ```
 
 ---
