@@ -24,7 +24,7 @@ Constraints: No frameworks, libraries, or external APIs
 
 ## 1) Overview and Scope
 
-InternSphere is a comprehensive internship tracking and application management system with three distinct user roles.
+InternHub is a comprehensive internship tracking and application management system with three distinct user roles.
 
 
 **Implemented Features:**
@@ -78,7 +78,7 @@ InternSphere is a comprehensive internship tracking and application management s
   - `password_hash`/`password_verify` for secure credentials
   - PDO for MySQL with prepared statements
   - Session-based authentication
-- **Database**: MySQL 8.x (InnoDB) - Database name: `internsphere`
+- **Database**: MySQL 8.x (InnoDB) - Database name: `internhub`
 - **Frontend**: Pure HTML/CSS/JS with AJAX for admin operations
 - **Routing**: File-based routing (no frameworks)
 - **Security**:
@@ -159,7 +159,7 @@ internship-tracker/
 
 **Database Setup:**
 
-1. Create MySQL database named `internsphere`
+1. Create MySQL database named `internhub`
 2. Import `db/schema.sql` which includes:
    - Complete table structure
    - Indexes for performance

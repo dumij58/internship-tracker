@@ -4,7 +4,7 @@
 require_once 'config.php';
 
 // Set a default title if one isn't provided by the page including this file
-$current_page_title = isset($page_title) ? $page_title : 'InternSphere';
+$current_page_title = isset($page_title) ? $page_title : 'InternHub';
 global $root_path, $pages_path, $assets_path;
 ?>
 
@@ -13,7 +13,7 @@ global $root_path, $pages_path, $assets_path;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo escape($current_page_title); ?> - InternSphere</title>
+    <title><?php echo escape($current_page_title); ?> - InternHub</title>
     <link rel="stylesheet" href="<?php echo $assets_path; ?>/css/style.css">
 </head>
 <body>
@@ -22,8 +22,8 @@ global $root_path, $pages_path, $assets_path;
             <nav class="nav-bar">
                 <div class="nav-brand">
                     <a class="nav-brand-link" href="<?php echo $root_path; ?>/index.php">
-                        <img src="<?php echo $assets_path; ?>/images/logo.webp" class="nav-brand-logo" alt="InternSphere Logo">
-                        <span class="nav-brand-name">InternSphere</span>
+                        <img src="<?php echo $assets_path; ?>/images/logo.webp" class="nav-brand-logo" alt="InternHub Logo">
+                        <span class="nav-brand-name">InternHub</span>
                     </a>
                 </div>
                 <div class="nav-links-container">
