@@ -34,6 +34,13 @@ require_once '../../includes/header.php';
                 <div class="input-field" id="namefield" style="max-height: 0; overflow: hidden;">
                     <input type="text" name="name" placeholder="Name" required>
                 </div>
+                <div class="input-field" id="usertypefield" style="max-height: 0; overflow: hidden;">
+                    <select name="user_type" class="form-control" required>
+                        <option value="">Select Account Type</option>
+                        <option value="2">Student</option>
+                        <option value="3">Company</option>
+                    </select>
+                </div>
                 <div class="input-field">
                     <input type="email" name= "email" placeholder="Email" required>
                 </div>
