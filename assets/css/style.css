@@ -1,10 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
+/* Ocean Blue Serenity - https://coolors.co/03045e-023e8a-0077b6-0096c7-00b4d8-48cae4-90e0ef-ade8f4-caf0f8 */
+:root {
+    --federal-blue: #03045eff;
+    --marian-blue: #023e8aff;
+    --honolulu-blue: #0077b6ff;
+    --blue-green: #0096c7ff;
+    --pacific-cyan: #00b4d8ff;
+    --vivid-sky-blue: #48cae4ff;
+    --non-photo-blue: #90e0efff;
+    --non-photo-blue-2: #ade8f4ff;
+    --light-cyan: #caf0f8ff;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f4f8;
+    background-color: var(--light-cyan);
+    /* background-color: #f0f4f8; */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -21,6 +35,7 @@ body {
     margin-top: 7dvh;
     padding: 20px;
 }
+
 footer {
     width: 100%;
     color: rgb(248, 252, 255);
@@ -151,7 +166,7 @@ footer {
     border-width: 2px;
     border-color: #0077b6;
     z-index: 1003;
-}   
+}
 
 .dropdown-content a {
     color: #333;
@@ -809,4 +824,135 @@ form p a {
 .status-cancelled {
     background: #f5f5f5;
     color: #616161;
+}
+
+
+
+/* ================================= */
+/* =========== Help Page =========== */
+/* ================================= */
+.box {
+    max-width: 2000px;
+    padding: 5px;
+    border-radius: 3px;
+    background-color: purple;
+    text-align: center;
+}
+
+.help-section {
+    background-color: white;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+}
+
+.step {
+    font-size: 18px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    background-color: grey;
+}
+
+h7 {
+    font-size: 26px;
+    color: #800080;
+    font-weight: bold;
+    margin-bottom: 15px;
+    display: block;
+}
+
+
+h8 {
+    font-size: 24px;
+    color: black;
+    font-weight: bold;
+    display: block;
+}
+
+h9 {
+    font-size: 25px;
+    color: brown;
+}
+
+summary {
+    cursor: pointer;
+    background: #f1f3f6;
+    transition: 0.3s;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+summary.highlight {
+    background-color: #ffe66d;
+    ;
+    color: brown;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.faq_question {
+    font-size: 18px;
+    font-weight: bold;
+    color: #1A73E8;
+    ;
+    margin-bottom: 5px;
+    margin-top: 15px;
+}
+
+.faq_answer {
+    font-style: italic;
+    margin-left: 15px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+
+.contact-us-form {
+    margin-top: 20px;
+}
+
+.contact-us-input {
+    margin-bottom: 15px;
+}
+
+.contact-us-input input,
+.contact-us-input textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.contact-submit-button {
+    cursor: pointer;
+    background-color: red;
+    color: white;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px;
+}
+
+.contact_info {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #deb887;
+    border-radius: 8px;
+    border-left: 4px solid #ff4b2b;
 }
