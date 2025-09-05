@@ -1,9 +1,4 @@
 <?php
-/**
- * Sample Data Generator for Analytics Testing
- * This script generates realistic sample data for testing the analytics dashboard
- * Run this script to populate the database with test data
- */
 
 require_once '../../includes/config.php';
 requireAdmin();
@@ -78,6 +73,30 @@ try {
     $db->beginTransaction();
     
     echo "<h2>Starting Sample Data Generation...</h2>\n";
+
+    // 0. Generate Default Users
+    echo "<p>Creating default users...</p>\n";
+
+    $username = "admin";
+    $email = "admin@internhub.com";
+    $password = '$2y$10$s28tVzy9K7vfqSez4aKYHuI4eeBfAyKhqwD4ZGlkMsNwYEC5f8qba'; // admin
+    $type_id = 1;
+    $stmt = $db->prepare("INSERT INTO users (username, email, password_hash, user_type_id) VALUES (?, ?, ?, 2, ?)");
+    $stmt->execute([$username, $email, $password, $created_at]);
+
+    $username = "uoc" . sprintf("%03d", $i);
+    $email = "uoc{$i}@university.edu";
+    $password = '$2y$10$s28tVzy9K7vfqSez4aKYHuI4eeBfAyKhqwD4ZGlkMsNwYEC5f8qba'; // uoc
+    $type_id = 2;
+    $stmt = $db->prepare("INSERT INTO users (username, email, password_hash, user_type_id) VALUES (?, ?, ?, 2, ?)");
+    $stmt->execute([$username, $email, $password, $created_at]);
+
+    $username = "codalyth" . sprintf("%03d", $i);
+    $email = "internhubmoderator@codalyth.com";
+    $password = '$2y$10$s28tVzy9K7vfqSez4aKYHuI4eeBfAyKhqwD4ZGlkMsNwYEC5f8qba'; // codalyth
+    $type_id = 3;
+    $stmt = $db->prepare("INSERT INTO users (username, email, password_hash, user_type_id) VALUES (?, ?, ?, 2, ?)");
+    $stmt->execute([$username, $email, $password, $created_at]);
     
     // 1. Generate Student Users and Profiles (40 students)
     echo "<p>Creating 40 student users and profiles...</p>\n";
@@ -265,6 +284,7 @@ try {
     echo "<h3 style='color: green;'>✅ Sample data generation completed successfully!</h3>\n";
     echo "<p><strong>Summary:</strong></p>\n";
     echo "<ul>\n";
+    echo "<li>Default users created</li>\n";
     echo "<li>40 Student users and profiles created</li>\n";
     echo "<li>15 Company users and profiles created</li>\n";
     echo "<li>25 Internship postings created</li>\n";
@@ -298,6 +318,5 @@ try {
     </style>
 </head>
 <body>
-    <!-- Output will be displayed above -->
 </body>
 </html>
