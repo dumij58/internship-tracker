@@ -18,8 +18,8 @@ if (session_status() === PHP_SESSION_NONE) {
 // Database Configuration
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'internhub');
-define('DB_USER', 'dumij58'); // Change this to your MySQL username
-define('DB_PASS', 'mysqldbpassword'); // Change this to your MySQL password
+define('DB_USER', 'root'); // Change this to your MySQL username
+define('DB_PASS', ''); // Change this to your MySQL password
 
 // Application Settings
 define('SITE_NAME', 'Internship Application & Tracking System');
