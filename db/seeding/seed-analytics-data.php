@@ -76,14 +76,14 @@ try {
 
     // 0. Generate Default Users
     echo "<p>Creating default users...</p>\n";
-
+    /*
     $username = "admin";
     $email = "admin@internhub.com";
     $password = '$2y$10$s28tVzy9K7vfqSez4aKYHuI4eeBfAyKhqwD4ZGlkMsNwYEC5f8qba'; // admin
     $type_id = 1;
     $stmt = $db->prepare("INSERT INTO users (username, email, password_hash, user_type_id) VALUES (?, ?, ?, 2)");
     $stmt->execute([$username, $email, $password]);
-
+*/
     $username = "uoc" . sprintf("%03d", $i);
     $email = "uoc{$i}@university.edu";
     $password = '$2y$10$s28tVzy9K7vfqSez4aKYHuI4eeBfAyKhqwD4ZGlkMsNwYEC5f8qba'; // uoc
