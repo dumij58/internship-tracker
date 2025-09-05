@@ -21,10 +21,8 @@ global $root_path, $pages_path, $assets_path;
         <div class="nav-container">
             <nav class="nav-bar">
                 <div class="nav-brand">
-                    <a class="nav-brand-link" href="<?php echo $root_path; ?>/index.php">
-                        <img src="<?php echo $assets_path; ?>/images/logo.webp" class="nav-brand-logo" alt="InternHub Logo">
-                        <span class="nav-brand-name">InternHub</span>
-                    </a>
+                        <span><img src="<?php echo $assets_path; ?>/images/logo.webp" alt="InternHub Logo" class="nav-brand-logo"></span>
+                        <span class="nav-brand-name brand-name">Intern<span class="bn-hub">Hub</span></span>
                 </div>
                 <div class="nav-links-container">
                     <div class="nav-links">
