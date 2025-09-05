@@ -41,7 +41,7 @@ require_once '../../includes/header.php';
                 <div class="input-field">
                     <input type="password" name="password" placeholder="Password" required>
                 </div>
-                <p class="lost-pass">Lost password? <a href="#">Click here</a></p>
+                <p class="lost-pass">Lost password? <a href="reset_password.php">Click here</a></p>
             </div>
             <div class="btn-field">
                 <button type="button" class="disable" id="signupBtn">Sign up</button>

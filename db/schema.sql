@@ -1,6 +1,6 @@
 -- Create Database
-CREATE DATABASE IF NOT EXISTS internsphere;
-USE internsphere;
+CREATE DATABASE IF NOT EXISTS internhub;
+USE internhub;
 
 -- User Types/Roles Table
 CREATE TABLE user_types (
@@ -174,4 +174,4 @@ INSERT INTO users (username, email, password_hash, user_type_id) VALUES
 
 -- Create Student Profile for Default Student
 INSERT INTO student_profiles (user_id, student_id, phone, bio, university, major, year_of_study, gpa) VALUES
-(2, 'STU001', '94712808865', 'Default user for InternSphere web application', 'Default University', 'Computer Science', 3, 3.50);
+(2, 'STU001', '94712808865', 'Default user for InternHub web application', 'Default University', 'Computer Science', 3, 3.50);
