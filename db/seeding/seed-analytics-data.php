@@ -84,15 +84,15 @@ try {
     $stmt = $db->prepare("INSERT INTO users (username, email, password_hash, user_type_id) VALUES (?, ?, ?, 2)");
     $stmt->execute([$username, $email, $password]);
 */
-    $username = "uoc" . sprintf("%03d", $i);
-    $email = "uoc{$i}@university.edu";
+    $username = "uoc";
+    $email = "uoc@university.edu";
     $password = '$2y$10$s28tVzy9K7vfqSez4aKYHuI4eeBfAyKhqwD4ZGlkMsNwYEC5f8qba'; // uoc
     $type_id = 2;
     $stmt = $db->prepare("INSERT INTO users (username, email, password_hash, user_type_id) VALUES (?, ?, ?, 2)");
     $stmt->execute([$username, $email, $password]);
 
-    $username = "codalyth" . sprintf("%03d", $i);
-    $email = "internhubmoderator@codalyth.com";
+    $username = "codalyth";
+    $email = "internhub_moderator@codalyth.com";
     $password = '$2y$10$s28tVzy9K7vfqSez4aKYHuI4eeBfAyKhqwD4ZGlkMsNwYEC5f8qba'; // codalyth
     $type_id = 3;
     $stmt = $db->prepare("INSERT INTO users (username, email, password_hash, user_type_id) VALUES (?, ?, ?, 2)");
